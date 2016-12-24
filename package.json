@@ -1,0 +1,40 @@
+{
+  "name": "@raymond-lam/priority-queue",
+  "version": "1.0.6",
+  "description": "A simple ECMAScript 6 implementation of a priority queue data structure class.",
+  "main": "./lib/priority-queue.js",
+  "keywords": [
+    "priority queue",
+    "priority-queue",
+    "priorityQueue",
+    "priority",
+    "queue",
+    "heap"
+  ],
+  "homepage": "https://github.com/raymond-lam/es6-priority-queue",
+  "scripts": {
+    "compile": "babel -d lib/ src/",
+    "test": "cross-env BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha",
+    "prepublish": "npm run compile"
+  },
+  "author": {
+    "name": "Raymond Lam",
+    "email": "ray@lam-ray.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raymond-lam/es6-priority-queue.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^3.0.0",
+    "babel-plugin-transform-es2015-modules-umd": "^6.18.0",
+    "babel-preset-latest": "^6.16.0",
+    "chai": "^3.5.0",
+    "cross-env": "^3.1.3",
+    "mocha": "^3.2.0",
+    "nyc": "^10.0.0"
+  }
+}
