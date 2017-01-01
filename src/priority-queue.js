@@ -1,3 +1,11 @@
+//     priority-queue.js
+//     https://github.com/raymond-lam/es6-priority-queue
+//     (c) 2017 Raymond Lam
+//
+//     Author: Raymond Lam (ray@lam-ray.com)
+//
+//     priority-queue.js may be freely distributed under the MIT license
+
 // Default cmp function, which simply returns 1, -1, or 0 if a > b, a < b, or
 // otherwise respectively.
 function defaultCmp(a, b) {
