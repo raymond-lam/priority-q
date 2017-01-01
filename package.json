@@ -13,9 +13,10 @@
   ],
   "homepage": "https://github.com/raymond-lam/es6-priority-queue",
   "scripts": {
+    "clean": "rm -rf .nyc_output coverage lib",
+    "prepublish": "npm run compile",
     "compile": "babel -d lib/ src/",
-    "test": "cross-env BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha",
-    "prepublish": "npm run compile"
+    "test": "cross-env BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha"
   },
   "author": {
     "name": "Raymond Lam",
