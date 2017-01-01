@@ -130,6 +130,13 @@ class PriorityQueue {
     return Array.from(this);
   }
 
+  // The locale-specific string form of this priority queue should be the 
+  // locale-specific string form of an array of this priority queue's elements 
+  // in sorted order.
+  toLocaleString() {
+    return Array.from(this).toLocaleString();
+  }
+
   // The string form of this priority queue should be the string form of an 
   // array of this priority queue's elements in sorted order.
   toString() {

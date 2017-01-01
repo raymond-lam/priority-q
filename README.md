@@ -61,6 +61,10 @@ Returns the element of the priority queue which is least in value (according to 
 
 Returns the elements of the priority queue as an Array in sorted order, so that `JSON.stringify` when applied to the priority queue returns the JSON string of a sorted array of the priority queue's elements.
 
+### toLocaleString()
+
+Returns the `.toLocaleString()` of an Array containing the priority queue's elements in sorted order. 
+
 ### toString()
 
 Returns the `.toString()` of an Array containing the priority queue's elements in sorted order. 

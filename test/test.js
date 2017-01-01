@@ -600,6 +600,65 @@ describe('#peak', function() {
   });
 });
 
+describe('#toLocaleString', function(){ 
+  it('should return the same as #toLocaleString of a sorted Array for a priority queue', function() {
+    let pq = new PriorityQueue([], function(a, b) {
+      let aTime = a.getTime();
+      let bTime = b.getTime();
+
+      if (aTime > bTime) return 1;
+      else if (aTime < bTime) return -1;
+      else return 0;
+    });
+
+    pq.enqueue(new Date(4));
+    pq.enqueue(new Date(3));
+    pq.enqueue(new Date(2));
+    pq.enqueue(new Date(1));
+    expect(pq.toLocaleString()).to.equal(([
+      new Date(1), 
+      new Date(2), 
+      new Date(3), 
+      new Date(4),
+    ]).toLocaleString());
+  });
+  
+  it('should return the same as #toLocaleString of a sorted Array for a priority queue with initial values', function() {
+    expect(
+      (new PriorityQueue([
+        new Date(4), 
+        new Date(3), 
+        new Date(2), 
+        new Date(1),
+      ], function(a, b) {
+        let aTime = a.getTime();
+        let bTime = b.getTime();
+
+        if (aTime > bTime) return 1;
+        else if (aTime < bTime) return -1;
+        else return 0;
+      })).toLocaleString()
+    ).to.equal(
+      [
+        new Date(1), 
+        new Date(2), 
+        new Date(3), 
+        new Date(4),
+      ].toLocaleString()
+    );
+  });
+
+  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty', function() {
+    let pq = new PriorityQueue([1]);
+    pq.dequeue();
+    expect((new PriorityQueue()).toLocaleString()).to.equal(([]).toLocaleString());
+  });
+
+  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty and in its initial state', function() {
+    expect((new PriorityQueue()).toLocaleString()).to.equal(([]).toLocaleString());
+  }); 
+});
+
 describe('#toString', function(){
   it('should return the same as #toString of an empty Array when the priority queue is empty', function() {
     let pq = new PriorityQueue([1]);
