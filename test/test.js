@@ -453,6 +453,21 @@ describe('#enqueue', function() {
       pq.dequeue(),
     ]).to.deep.equal([-2, -1, 0, 1, 1, 3, 4, 5, 6]);
   });
+  
+  it('should take multiple elements and enqueue them to the right positions', function() {
+    let pq = new PriorityQueue([5, 3, 1]);
+    pq.enqueue(2, 6, 0);
+    
+    expect(pq.length).to.equal(6);
+    expect([
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+    ]).to.deep.equal([0, 1, 2, 3, 5, 6]);
+  });
 
   it('should return the resultant length of the priority queue', function() {
     let pq = new PriorityQueue([1, 2, 3]);
@@ -681,21 +696,6 @@ describe('#toString', function(){
   
   it('should return the same as #toString of a sorted Array for a priority queue with initial values', function() {
     expect((new PriorityQueue([4, 3, 2, 1])).toString()).to.equal(([1, 2, 3, 4]).toString());
-  });
-
-  it('should take multiple elements and enqueue them to the right positions', function() {
-    let pq = new PriorityQueue([5, 3, 1]);
-    pq.enqueue(2, 6, 0);
-    
-    expect(pq.length).to.equal(6);
-    expect([
-      pq.dequeue(),
-      pq.dequeue(),
-      pq.dequeue(),
-      pq.dequeue(),
-      pq.dequeue(),
-      pq.dequeue(),
-    ]).to.deep.equal([0, 1, 2, 3, 5, 6]);
   });
 });
 
