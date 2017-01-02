@@ -675,17 +675,7 @@ describe('#toLocaleString', function(){
 });
 
 describe('#toString', function(){
-  it('should return the same as #toString of an empty Array when the priority queue is empty', function() {
-    let pq = new PriorityQueue([1]);
-    pq.dequeue();
-    expect((new PriorityQueue()).toString()).to.equal(([]).toString());
-  });
-
-  it('should return the same as #toString of an empty Array when the priority queue is empty and in its initial state', function() {
-    expect((new PriorityQueue()).toString()).to.equal(([]).toString());
-  });
-  
-  it('should return the same as #toString of a sorted Array for a priority queue with initial values', function() {
+  it('should return the same as #toString of a sorted Array for a priority queue', function() {
     let pq = new PriorityQueue();
     pq.enqueue(4);
     pq.enqueue(3);
@@ -697,6 +687,17 @@ describe('#toString', function(){
   it('should return the same as #toString of a sorted Array for a priority queue with initial values', function() {
     expect((new PriorityQueue([4, 3, 2, 1])).toString()).to.equal(([1, 2, 3, 4]).toString());
   });
+
+  it('should return the same as #toString of an empty Array when the priority queue is empty', function() {
+    let pq = new PriorityQueue([1]);
+    pq.dequeue();
+    expect((new PriorityQueue()).toString()).to.equal(([]).toString());
+  });
+
+  it('should return the same as #toString of an empty Array when the priority queue is empty and in its initial state', function() {
+    expect((new PriorityQueue()).toString()).to.equal(([]).toString());
+  });  
+
 });
 
 describe('JSON.stringify', function(){
