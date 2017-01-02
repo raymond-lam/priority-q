@@ -97,6 +97,59 @@ describe('iterator', function() {
 
 });
 
+describe('#clear', function() {
+  it('should remove all elements from a priority queue', function() {
+    let pq = new PriorityQueue();
+
+    pq.enqueue(0);
+    pq.enqueue(1);
+
+    pq.clear();
+
+    expect(pq.length).to.equal(0);
+    expect(pq.dequeue()).to.be.undefined;
+
+  });
+
+  it('should remove all elements from a priority queue with initial elements', function() {
+    let pq = new PriorityQueue([0, 1, 2]);
+    pq.enqueue(3);
+
+    pq.clear();
+
+    expect(pq.length).to.equal(0);
+    expect(pq.dequeue()).to.be.undefined;
+
+  });
+
+  it('should remove all elements from a priority queue with initial elements in its initial state', function() {
+    let pq = new PriorityQueue([0, 1, 2]);
+
+    pq.clear();
+
+    expect(pq.length).to.equal(0);
+    expect(pq.dequeue()).to.be.undefined;
+  });
+
+  it('should not materially change an empty priority queue', function() {
+    let pq = new PriorityQueue([1]);
+    pq.dequeue();
+
+    pq.clear();
+
+    expect(pq.length).to.equal(0);
+    expect(pq.dequeue()).to.be.undefined;
+  });
+
+  it('should not materially change an empty priority queue in its initial state', function() {
+    let pq = new PriorityQueue();
+
+    pq.clear();
+
+    expect(pq.length).to.equal(0);
+  });
+});
+
 describe('#clone', function() {
   it('should not return a reference to the same priority queue', function() {
     let pq = new PriorityQueue([1, 2, 3]);

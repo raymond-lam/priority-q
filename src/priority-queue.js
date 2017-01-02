@@ -46,6 +46,14 @@ class PriorityQueue {
     };
   }
 
+  // Removes all elements from the priority queue. Returns the number of
+  // elements removed.
+  clear() {
+    let length = this.length;
+    this._heap = [];
+    return length;
+  }
+
   // Shallow clone of the priority queue.
   clone() {
 

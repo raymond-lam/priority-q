@@ -37,6 +37,10 @@ The constructor takes two optional arguments: Array of initial elements, and a c
 
 The priority queue implements an interable protocol wherein elements are successively dequeued from a shallow clone of the priority queue, so that one could, for example, iterate over the elements of the priority queue in sorted order using a `for ... of` loop, and the priority queue itself will not be mutated.
 
+### clear()
+
+Removes all elements from the priority queue. Returns the number of elements removed.
+
 ### clone()
 
 Returns a shallow clone of the priority queue, which is to say, returns a new priority queue with the exact same elements and comparator.
