@@ -61,7 +61,7 @@ describe('constructor', function() {
 
 });
 
-describe('iterator', function() {
+describe('iteratable protocol', function() {
   it('should output the elements of the priority queue exactly, not copies, in the correct order', function() {
     let pq = new PriorityQueue([
       { value: 5 },
@@ -529,6 +529,79 @@ describe('#enqueue', function() {
 
 });
 
+describe('#entries', function() {
+  it('should return an iterator', function() {
+    let pq = new PriorityQueue([0, 1, 2]);
+
+    expect(pq.entries()).to.respondTo('next');
+
+    let it = pq.entries();
+    expect(it.next()).to.have.property('value');
+    it.next();
+    it.next();
+    expect(it.next().done).to.be.true;
+
+  });
+
+  it('should return an iterator which outputs key-value pairs of the elements of the priority queue, where the values are the elements exactly, not copies, in the correct order', function() {
+    let pq = new PriorityQueue([
+      { value: 5 },
+      { value: 4 },
+    ], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+
+    pq.enqueue({ value: 6 });
+    pq.enqueue({ value: 3 });
+
+    let i = 0;
+    for (let el of pq.entries()) {
+      expect(el[0]).to.equal(i++);
+      expect(el[1]).to.equal(pq.dequeue());
+    }
+  });
+
+  it('should return an iterator that does not mutate the priority queue', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+    
+    let arrayFromPQ = Array.from(pq.entries());
+
+    expect(pq.length).to.equal(5);
+    expect([
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+    ]).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  it('should return iterators which are independent of one another', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+
+    let it0 = pq.entries();
+    let it1 = pq.entries();
+
+    let result = [it0.next().value, it1.next().value];
+    result.push(...it0, ...it1);
+    expect(result).to.deep.equal([
+      [0, 1],
+      [0, 1],
+      [1, 2], 
+      [2, 3], 
+      [3, 4], 
+      [4, 5], 
+      [1, 2], 
+      [2, 3], 
+      [3, 4], 
+      [4, 5],
+    ]);
+  });
+
+});
+
 describe('#length', function() {
   it('should be correct for a zero-length priority queue', function() {
     expect((new PriorityQueue()).length).to.equal(0);
@@ -752,6 +825,66 @@ describe('#toString', function(){
   });  
 
 });
+
+describe('#values', function() {
+  it('should return an iterator', function() {
+    let pq = new PriorityQueue([0, 1, 2]);
+
+    expect(pq.values()).to.respondTo('next');
+
+    let it = pq.values();
+    expect(it.next()).to.have.property('value');
+    it.next();
+    it.next();
+    expect(it.next().done).to.be.true;
+
+  });
+
+  it('should return an iterator which outputs the elements of the priority queue exactly, not copies, in the correct order', function() {
+    let pq = new PriorityQueue([
+      { value: 5 },
+      { value: 4 },
+    ], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+
+    pq.enqueue({ value: 6 });
+    pq.enqueue({ value: 3 });
+
+    for (let el of pq.values()) {
+      expect(el).to.equal(pq.dequeue());
+    }
+  });
+
+  it('should return an iterator that does not mutate the priority queue', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+    
+    let arrayFromPQ = Array.from(pq.values());
+
+    expect(pq.length).to.equal(5);
+    expect([
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+    ]).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  it('should return iterators which are independent of one another', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+
+    let it0 = pq.values();
+    let it1 = pq.values();
+
+    expect([...it0, ...it1]).to.deep.equal([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]);
+  });
+
+});
+
+
 
 describe('JSON.stringify', function(){
   it('should return the same as JSON.stringify([]) when the priority queue is empty', function() {

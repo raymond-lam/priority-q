@@ -35,7 +35,7 @@ The constructor takes two optional arguments: Array of initial elements, and a c
 
 ### *iterable protocol*
 
-The priority queue implements an interable protocol wherein elements are successively dequeued from a shallow clone of the priority queue, so that one could, for example, iterate over the elements of the priority queue in sorted order using a `for ... of` loop, and the priority queue itself will not be mutated.
+The priority queue implements an interable protocol wherein the elements are iterated over without mutating the priority queue itself, so that one could, for example, iterate over the elements of the priority queue in sorted order using a `for ... of` loop.
 
 ### clear()
 
@@ -52,6 +52,10 @@ Removes and returns the element of the priority queue which is least in value (a
 ### enqueue(*elements)
 
 Inserts each given argument into the appropriate place in the priority queue. Returns the resulting number of elements in the priority queue.
+
+### entries()
+
+Returns a new `Iterator` object which iterates over key/value pairs of the priority queue in sorted over, where the key is the element's position in the priority queue.
 
 ### length
 
@@ -72,6 +76,10 @@ Returns the `.toLocaleString()` of an Array containing the priority queue's elem
 ### toString()
 
 Returns the `.toString()` of an Array containing the priority queue's elements in sorted order. 
+
+### values()
+
+Returns a new `Iterator` object that iterates over the elements of the priority queue in sorted order without mutating it.
 
 ## Author
 

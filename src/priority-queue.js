@@ -32,18 +32,7 @@ class PriorityQueue {
   // Define an iterator which successively dequeues from a clone of this
   // priority queue.
   [Symbol.iterator]() {
-
-    // Clone this because we don't want to mutate the original priority queue by
-    // iterating over its elements.
-    var priorityQueue = this.clone();
-    return {
-      next() {
-        return priorityQueue.length 
-          ? { value: priorityQueue.dequeue() }
-          : { done: true }
-        ;
-      }  
-    };
+    return this.values();
   }
 
   // Removes all elements from the priority queue. Returns the number of
@@ -127,6 +116,16 @@ class PriorityQueue {
     return this.length;
   }
 
+  // Returns an Iterator which iterates over key/value pairs, where the values
+  // are the values in the priority queue, and the keys are the positions those
+  // values occupy in the priority queue.
+  *entries() {
+    let i = 0;
+    for (let value of this) {
+      yield [i++, value];
+    }
+  }
+
   // Returns the minimum element of the priority queue without removing it.
   peek() {
     return this._heap[0];
@@ -149,6 +148,18 @@ class PriorityQueue {
   // array of this priority queue's elements in sorted order.
   toString() {
     return Array.from(this).toString();
+  }
+  
+  // Returns a new Iterator which iterates over the priority queue's values,
+  // without mutating the priority queue itself.
+  *values() {
+    // Clone this because we don't want to mutate the original priority queue by
+    // iterating over its elements.
+    var priorityQueue = this.clone();
+  
+    while (priorityQueue.length) {
+      yield priorityQueue.dequeue();
+    }
   }
 
   // length accessor is simply the number of elements currently in the priority
