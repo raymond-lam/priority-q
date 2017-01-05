@@ -35,7 +35,7 @@ The constructor takes two optional arguments: Array of initial elements, and a c
 
 ### *iterable protocol*
 
-The priority queue implements an interable protocol wherein the elements are iterated over without mutating the priority queue itself, so that one could, for example, iterate over the elements of the priority queue in sorted order using a `for ... of` loop.
+The priority queue implements an interable protocol wherein the elements of the priority queue are iterated over in sorted order, without removing elements from it, so that one could, for example, use the for-of loop syntax to loop over the a priority queue.
 
 ### clear()
 
@@ -95,7 +95,7 @@ Returns the `.toString()` of an Array containing the priority queue's elements i
 
 ### values()
 
-Returns a new `Iterator` object that iterates over the elements of the priority queue in sorted order without mutating it.
+Returns a new `Iterator` object that iterates over the elements of the priority queue in sorted order without removing elements from it.
 
 ## Author
 
