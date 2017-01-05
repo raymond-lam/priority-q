@@ -65,6 +65,22 @@ Integer property which reflects the number of elements in the priority queue.
 
 Returns the element of the priority queue which is least in value (according to the default comparator or the comparator given to the constructor) without removing it.
 
+### reduce(callback[, initialValue])
+
+Applies the given callback function against an accumulator (which begins as the given inital value) and each element of the priority queue in sorted order to reduce the elements to a single value.
+
+The parameters of the callback function are: the accumulated value previously returned in the last invocation of the callback, or the given `initialValue` if supplied for the first invocation; the current element being processed; the position of the current element in the priority queue; and a reference to the priority queue.
+
+Note that the callback function is applied to all elements of the priority queue that were present at the time of the call to `reduce`, and only those elements, even if the callback function itself adds or removes elements from the priority queue.
+
+### reduceRight(callback[, initialValue])
+
+Applies the given callback function against an accumulator (which begins as the given inital value) and each element of the priority queue in reverse sorted order to reduce the elements to a single value.
+
+The parameters of the callback function are: the accumulated value previously returned in the last invocation of the callback, or the given `initialValue` if supplied for the first invocation; the current element being processed; the position of the current element in the priority queue; and a reference to the priority queue.
+
+Note that the callback function is applied to all elements of the priority queue that were present at the time of the call to `reduce`, and only those elements, even if the callback function itself adds or removes elements from the priority queue.
+
 ### toJSON()
 
 Returns the elements of the priority queue as an Array in sorted order, so that `JSON.stringify` when applied to the priority queue returns the JSON string of a sorted array of the priority queue's elements.

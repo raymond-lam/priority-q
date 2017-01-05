@@ -131,6 +131,22 @@ class PriorityQueue {
     return this._heap[0];
   }
 
+  // Applies a function against an accumulator and each value of the priority 
+  // queue in order to reduce it to a single value.
+  reduce(callback, initialValue) {
+    for (let [i, element] of this.entries())
+      initialValue = callback(initialValue, element, i, this);
+    return initialValue;
+  }
+
+  // Applies a function against an accumulator and each value of the priority 
+  // queue in reverse order to reduce it to a single value.
+  reduceRight(callback, initialValue) {
+    for (let [i, element] of Array.from(this.entries()).reverse())
+      initialValue = callback(initialValue, element, i, this);
+    return initialValue;
+  }
+
   // JSON.stringify of this priority queue should be the JSON of the elements
   // of the priority queue in a sorted array.
   toJSON() {
