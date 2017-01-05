@@ -31,7 +31,7 @@ The priority queue class is made available as module defined in the [UMD](https:
 
 ### *constructor*([init[, cmp]])
 
-The constructor takes two optional arguments: Array of initial elements, and a comparator function. iThe constructor will create a priority queue, where the element with the least value is always dequeued, and enqueue each of the given initial elements. The comparator function, which should take two elements as arguments and return 1 if the first element is greater in value, -1 if the second element is greater in value, and 0 they are equal in value, will be used for all comparisons necessary to keep the priority queue in order. The default comparator simply returns 1 or -1 if the first element is `<` or `>` the second element respectively, or 0 otherwise. 
+The constructor takes two optional arguments: Array of initial elements, and a comparator function. The constructor will create a priority queue, where the element with the least value is always dequeued, and enqueue each of the given initial elements. The comparator function, which should take two elements as arguments and return 1 if the first element is greater in value, -1 if the second element is greater in value, and 0 they are equal in value, will be used for all comparisons necessary to keep the priority queue in order. The default comparator simply returns 1 or -1 if the first element is `<` or `>` the second element respectively, or 0 otherwise. 
 
 ### *iterable protocol*
 
