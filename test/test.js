@@ -807,7 +807,7 @@ describe('#peak', function() {
       
       it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
         expect(
-          (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
+          (new PriorityQueue([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]))[methodName](
             function(accumulator, currentValue, currentIndex, pq) {
               pq.enqueue(currentIndex + 1);
               pq.enqueue(currentIndex + 2);
@@ -815,19 +815,19 @@ describe('#peak', function() {
             },
             0
           )
-        ).to.equal(55);
+        ).to.equal(65);
       });
 
       it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
         expect(
-          (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
+          (new PriorityQueue([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]))[methodName](
             function(accumulator, currentValue, currentIndex, pq) {
               pq.enqueue(pq.dequeue() + 1);
               return accumulator + currentValue;
             },
             0
           )
-        ).to.equal(55);
+        ).to.equal(65);
       });
     });
   };
