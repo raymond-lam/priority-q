@@ -741,182 +741,100 @@ describe('#peak', function() {
   });
 });
 
-describe('#reduce', function() {
-  it('should reduce in the same manner that an Array reduces, the elements being iterated over in sorted order', function() {
-    function concatReduce(accumulator, currentValue) {
-      return accumulator + currentValue;
-    }
+{ 
+  let describeReduceMethod = function(methodName) {
+    describe('#' + methodName, function() {
+      it('should reduce in the same manner that an Array reduces, the elements being iterated over in sorted order', function() {
+        function concatReduce(accumulator, currentValue) {
+          return accumulator + currentValue;
+        }
 
-    let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
+        let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
 
-    expect(
-      pq.reduce(concatReduce, '')
-    ).to.equal(
-      ['w', 'x', 'y', 'z'].reduce(concatReduce, '')
-    );
-  });
+        expect(
+          pq[methodName](concatReduce, '')
+        ).to.equal(
+          ['w', 'x', 'y', 'z'][methodName](concatReduce, '')
+        );
+      });
 
-  it('should reduce an empty priority queue in the same manner that an Array reduces an empty Array', function() {
-    function concatReduce(accumulator, currentValue) {
-      return accumulator + currentValue;
-    }
+      it('should reduce an empty priority queue in the same manner that an Array reduces an empty Array', function() {
+        function concatReduce(accumulator, currentValue) {
+          return accumulator + currentValue;
+        }
 
-    let pq = new PriorityQueue();
+        let pq = new PriorityQueue();
 
-    expect(
-      pq.reduce(concatReduce, 'a')
-    ).to.equal(
-      [].reduce(concatReduce, 'a')
-    );
-  });
+        expect(
+          pq[methodName](concatReduce, 'a')
+        ).to.equal(
+          [][methodName](concatReduce, 'a')
+        );
+      });
 
-  it('should call the callback function passing an index the way that Array.prototype.reduce would', function() {
-    function indexReduce(accumulator, currentValue, currentIndex) {
-      return [accumulator, currentIndex].join(',');
-    }
+      it('should call the callback function passing an index the way that Array.prototype.reduce would', function() {
+        function indexReduce(accumulator, currentValue, currentIndex) {
+          return [accumulator, currentIndex].join(',');
+        }
 
-    let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
+        let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
 
-    expect(
-      pq.reduce(indexReduce, '')
-    ).to.equal(
-      ['w', 'x', 'y', 'z'].reduce(indexReduce, '')
-    );
-  });
+        expect(
+          pq[methodName](indexReduce, '')
+        ).to.equal(
+          ['w', 'x', 'y', 'z'][methodName](indexReduce, '')
+        );
+      });
 
-  it('should pass the original priority queue to the callback function', function() {
-    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-    pq.reduce(function(accumulator, currentValue, currentIndex, pqReference) {
-      expect(pqReference).to.equal(pq);
+      it('should pass the original priority queue to the callback function', function() {
+        let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+        pq[methodName](function(accumulator, currentValue, currentIndex, pqReference) {
+          expect(pqReference).to.equal(pq);
+        });
+      });
+
+      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
+        expect(
+          (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
+            function(accumulator, currentValue, currentIndex, pq) {
+              pq.dequeue();
+              return accumulator + currentValue;
+            },
+            0
+          )
+        ).to.equal(55);
+      });
+      
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
+        expect(
+          (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
+            function(accumulator, currentValue, currentIndex, pq) {
+              pq.enqueue(currentIndex + 1);
+              pq.enqueue(currentIndex + 2);
+              return accumulator + currentValue;
+            },
+            0
+          )
+        ).to.equal(55);
+      });
+
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
+        expect(
+          (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
+            function(accumulator, currentValue, currentIndex, pq) {
+              pq.enqueue(pq.dequeue() + 1);
+              return accumulator + currentValue;
+            },
+            0
+          )
+        ).to.equal(55);
+      });
     });
-  });
+  };
 
-  it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduce(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.dequeue();
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-  
-  it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduce(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.enqueue(currentIndex + 1);
-          pq.enqueue(currentIndex + 2);
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-
-  it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduce(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.enqueue(pq.dequeue() + 1);
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-});
-
-describe('#reduceRight', function() {
-  it('should reduce-right in the same manner that an Array reduces-right, the elements being iterated over in reverse-sorted order', function() {
-    function concatReduce(accumulator, currentValue) {
-      return accumulator + currentValue;
-    }
-
-    let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
-
-    expect(
-      pq.reduceRight(concatReduce, '')
-    ).to.equal(
-      ['w', 'x', 'y', 'z'].reduceRight(concatReduce, '')
-    );
-  });
-  
-  it('should reduce-right an empty priority queue in the same manner that an Array reduces-right an empty Array', function() {
-    function concatReduce(accumulator, currentValue) {
-      return accumulator + currentValue;
-    }
-
-    let pq = new PriorityQueue();
-
-    expect(
-      pq.reduceRight(concatReduce, 'a')
-    ).to.equal(
-      [].reduceRight(concatReduce, 'a')
-    );
-  });
-
-  it('should call the callback function passing an index the way that Array.prototype.reduceRight would', function() {
-    function indexReduce(accumulator, currentValue, currentIndex) {
-      return [accumulator, currentIndex].join(',');
-    }
-
-    let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
-
-    expect(
-      pq.reduceRight(indexReduce, '')
-    ).to.equal(
-      ['w', 'x', 'y', 'z'].reduceRight(indexReduce, '')
-    );
-  });
-
-  it('should pass the original priority queue to the callback function', function() {
-    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-    pq.reduceRight(function(accumulator, currentValue, currentIndex, pqReference) {
-      expect(pqReference).to.equal(pq);
-    });
-  });
-
-  it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduceRight(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.dequeue();
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-  
-  it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduceRight(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.enqueue(currentIndex + 1);
-          pq.enqueue(currentIndex + 2);
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-
-  it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
-    expect(
-      (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1])).reduceRight(
-        function(accumulator, currentValue, currentIndex, pq) {
-          pq.enqueue(pq.dequeue() + 1);
-          return accumulator + currentValue;
-        },
-        0
-      )
-    ).to.equal(55);
-  });
-
-});
+  describeReduceMethod('reduce');
+  describeReduceMethod('reduceRight');
+}
 
 describe('#toLocaleString', function(){ 
   it('should return the same as #toLocaleString of a sorted Array for a priority queue', function() {
