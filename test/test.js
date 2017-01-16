@@ -602,7 +602,7 @@ describe('#entries', function() {
 
 });
 
-describe('#include', function() {
+describe('#includes', function() {
   it("should return what an empty Array's #include would return", function() {
     expect(
       (new PriorityQueue([])).includes(3)
