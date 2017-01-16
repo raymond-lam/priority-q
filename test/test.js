@@ -602,6 +602,113 @@ describe('#entries', function() {
 
 });
 
+describe('#include', function() {
+  it("should return what an empty Array's #include would return", function() {
+    expect(
+      (new PriorityQueue([])).includes(3)
+    ).to.equal(
+      [].includes(3)
+    );
+  });
+
+  it("should return what an empty Array's #include would return, with fromIndex", function() {
+    expect(
+      (new PriorityQueue([])).includes(3, 2)
+    ).to.equal(
+      [].includes(3, 2)
+    );
+  });
+ 
+  it("should return what an empty Array's #include would return, with negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([])).includes(3, -2)
+    ).to.equal(
+      [].includes(3, -2)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(3)
+    ).to.equal(
+      [2, 3, 4, 5].includes(3)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is not present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(1)
+    ).to.equal(
+      [2, 3, 4, 5].includes(1)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is present, 0 fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(3, 0)
+    ).to.equal(
+      [2, 3, 4, 5].includes(3, 0)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is not present, 0 fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(1, 0)
+    ).to.equal(
+      [2, 3, 4, 5].includes(1, 0)
+    );
+  });
+
+  it("should return what Array's #include would return where the search element is present in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(4, 1)
+    ).to.equal(
+      [2, 3, 4, 5].includes(4, 1)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is present but not in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(2, 3)
+    ).to.equal(
+      [2, 3, 4, 5].includes(2, 3)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is not present in search segment or rest of priority queue", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(1, 1)
+    ).to.equal(
+      [2, 3, 4, 5].includes(1, 1)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is present in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(4, -2)
+    ).to.equal(
+      [2, 3, 4, 5].includes(4, -2)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is present but not in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(2, -1)
+    ).to.equal(
+      [2, 3, 4, 5].includes(2, -1)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is not present in search segment or rest of priority queue, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(1, -1)
+    ).to.equal(
+      [2, 3, 4, 5].includes(1, -1)
+    );
+  });
+ 
+});
+
 describe('#length', function() {
   it('should be correct for a zero-length priority queue', function() {
     expect((new PriorityQueue()).length).to.equal(0);

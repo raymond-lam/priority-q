@@ -57,6 +57,10 @@ Inserts each given argument into the appropriate place in the priority queue. Re
 
 Returns a new `Iterator` object which iterates over key/value pairs of the priority queue in sorted over, where the key is the element's position in the priority queue.
 
+### includes(searchElement[, fromIndex])
+
+Searches the priority queue for the given `searchElement` and returns `true` if found, `false` otherwise. Optionally specify `fromIndex` to start the search at that position in the priority queue. A negative `fromIndex` will start the search at position `length + fromIndex`.
+
 ### length
 
 Integer property which reflects the number of elements in the priority queue.

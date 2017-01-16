@@ -126,6 +126,25 @@ class PriorityQueue {
     }
   }
 
+  // Returns true if searchElement is present in the priority queue, starting
+  // search at fromIndex
+  includes(searchElement, fromIndex = 0) {
+    // If fromIndex is 0, it means search the whole queue, in which case order 
+    // doesn't matter, so we can just delegate to the heap
+    if (fromIndex === 0) return this._heap.includes(searchElement);
+
+    // Negative fromIndex means start that many from the end of the priority queue
+    if (fromIndex < 0) fromIndex = this.length + fromIndex;
+
+    // Return true if the searchElement is in the priority queue at or after the given
+    // fromIndex
+    for (let [i, value] of this.entries())
+      if (value === searchElement && i >= fromIndex) return true;
+
+    // If we get this far, we haven't found the element.
+    return false;
+  }
+
   // Returns the minimum element of the priority queue without removing it.
   peek() {
     return this._heap[0];
