@@ -61,6 +61,10 @@ Returns a new `Iterator` object which iterates over key/value pairs of the prior
 
 Searches the priority queue for the given `searchElement` and returns `true` if found, `false` otherwise. Optionally specify `fromIndex` to start the search at that position in the priority queue. A negative `fromIndex` will start the search at position `length + fromIndex`.
 
+### join([separator])
+
+Joins the elements of the priority queue in sorted order into a string, in the manner of `Array`'s `join` method.
+
 ### length
 
 Integer property which reflects the number of elements in the priority queue.

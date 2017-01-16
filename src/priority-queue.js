@@ -153,6 +153,11 @@ class PriorityQueue {
     return false;
   }
 
+  // Joins the elements of the priority queue in sorted order into a string.
+  join() {
+    return Array.from(this).join(...arguments);
+  }
+
   // Returns the minimum element of the priority queue without removing it.
   peek() {
     return this._heap[0];

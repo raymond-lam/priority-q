@@ -766,6 +766,16 @@ describe('#includes', function() {
   }); 
 });
 
+describe('#join', function() {
+  it('should join the elements of the priority queue in sorted order', function() {
+    expect((new PriorityQueue(['z', 'y', 'x'])).join()).to.equal(['x', 'y', 'z'].join());
+  });
+  
+  it('should join the elements of the priority queue in sorted order, with separator', function() {
+    expect((new PriorityQueue(['z', 'y', 'x'])).join('::')).to.equal(['x', 'y', 'z'].join('::'));
+  });
+});
+
 describe('#length', function() {
   it('should be correct for a zero-length priority queue', function() {
     expect((new PriorityQueue()).length).to.equal(0);
