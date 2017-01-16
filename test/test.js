@@ -706,7 +706,64 @@ describe('#include', function() {
       [2, 3, 4, 5].includes(1, -1)
     );
   });
- 
+
+  it("should return what Array's #include would return where the search element is NaN and is present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN])).includes(NaN)
+    ).to.equal(
+      [2, 3, 4, 5, NaN].includes(NaN)
+    );
+  });
+  
+  it("should return what Array's #include would return where the search element is NaN and is not present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).includes(NaN)
+    ).to.equal(
+      [2, 3, 4, 5].includes(NaN)
+    );
+  }); 
+  
+  it("should return what Array's #include would return where the search element is NaN and is present in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return 1;
+        else if (Number.isNaN(b)) return -1;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).includes(NaN, 1)
+    ).to.equal(
+      [2, 3, 4, 5, NaN].includes(NaN, 1)
+    );
+  }); 
+  
+  it("should return what Array's #include would return where the search element is NaN and is present in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return -1;
+        else if (Number.isNaN(b)) return 1;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).includes(NaN, -5)
+    ).to.equal(
+      [NaN, 2, 3, 4, 5].includes(NaN, -5)
+    );
+  });
+
+  it("should return what Array's #include would return where the search element is NaN and is present but not in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return -1;
+        else if (Number.isNaN(b)) return 1;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).includes(NaN, 1)
+    ).to.equal(
+      [NaN, 2, 3, 4, 5].includes(NaN, 1)
+    );
+  }); 
 });
 
 describe('#length', function() {

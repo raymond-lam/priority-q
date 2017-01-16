@@ -138,8 +138,16 @@ class PriorityQueue {
 
     // Return true if the searchElement is in the priority queue at or after the given
     // fromIndex
-    for (let [i, value] of this.entries())
-      if (value === searchElement && i >= fromIndex) return true;
+    if (Number.isNaN(searchElement)) {
+      for (let [i, value] of this.entries()) {
+        if (i >= fromIndex && Number.isNaN(value)) return true;
+      }
+    }
+    else {
+      for (let [i, value] of this.entries()) {
+        if (i >= fromIndex && value === searchElement) return true;
+      }
+    }
 
     // If we get this far, we haven't found the element.
     return false;
