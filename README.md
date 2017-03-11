@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/raymond-lam/es6-priority-queue.svg?branch=master)](https://travis-ci.org/raymond-lam/es6-priority-queue)
+[![Build Status](https://travis-ci.org/raymond-lam/es6-priority-queue.svg?branch=master)](https://travis-ci.org/raymond-lam/es6-priority-queue) [![Greenkeeper badge](https://badges.greenkeeper.io/raymond-lam/es6-priority-queue.svg)](https://greenkeeper.io/)
 
 # priority-queue.js
 
