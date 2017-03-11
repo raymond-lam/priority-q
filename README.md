@@ -2,6 +2,8 @@
 
 # priority-queue.js
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/raymond-lam/es6-priority-queue.svg)](https://greenkeeper.io/)
+
 A simple ECMAScript 6 implementation of a priority queue data structure class.
 
 In addition to being a useful utility, this implementation serves as a demonstration of a number of features and conveniences that are new to the sixth version of ECMAScript (JavaScript).
