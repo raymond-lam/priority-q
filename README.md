@@ -1,4 +1,4 @@
-![build status](https://travis-ci.org/raymond-lam/es6-priority-queue.svg?branch=master)
+[![Build Status](https://travis-ci.org/raymond-lam/es6-priority-queue.svg?branch=master)](https://travis-ci.org/raymond-lam/es6-priority-queue)
 
 # priority-queue.js
 
