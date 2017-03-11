@@ -125,6 +125,22 @@ class PriorityQueue {
       yield [i++, value];
     }
   }
+  
+  // Returns the value of the first element in the priority queue that satisfies
+  // the provided testing function, or undefined otherwise.
+  find(callback, thisArg) {
+    for (let [i, element] of this.entries())
+      if (callback.call(thisArg, element, i, this)) return element;
+    return undefined;
+  }
+  
+  // Returns the index of the first element in the priority queue that satisfies
+  // the provided testing function, or undefined otherwise.
+  findIndex(callback, thisArg) {
+    for (let [i, element] of this.entries())
+      if (callback.call(thisArg, element, i, this)) return i;
+    return -1;
+  }
 
   // Returns true if searchElement is present in the priority queue, starting
   // search at fromIndex

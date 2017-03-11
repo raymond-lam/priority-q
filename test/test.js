@@ -776,6 +776,157 @@ describe('#join', function() {
   });
 });
 
+{ 
+  let describeFindMethod = function(methodName) {
+    describe(`#${methodName}`, function() {
+      it('should find the same element that Array would find, the elements being iterated over in sorted order', function() {
+        function predicate(element) {
+          return element === 'x' || element === 'y';
+        }
+
+        let pq = new PriorityQueue(
+          [ 
+            { value: 'z' }, 
+            { value: 'y' }, 
+            { value: 'x' }, 
+            { value: 'w' }
+          ], function(a, b) {
+            if (a.value > b.value) return 1;
+            else if (a.value < b.value) return -1;
+            else return 0;
+          }
+        );
+
+        expect(
+          pq[methodName](predicate)
+        ).to.equal(
+          Array.from(pq)[methodName](predicate)
+        );
+      });
+      
+      it(`should return what Array.prototype.${methodName} would return if the element is not found`, function() {
+        function predicate(element) {
+          return element === 'q'
+        }
+
+        let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
+
+        expect(
+          pq[methodName](predicate)
+        ).to.equal(
+          ['w', 'x', 'y', 'z'][methodName](predicate)
+        );
+      });
+      
+      it(`should return what Array.prototype.${methodName} for an empty array if the priority queue is empty`, function() {
+        function predicate(element) {
+          return element === 'q'
+        }
+
+        let pq = new PriorityQueue();
+
+        expect(
+          pq[methodName](predicate)
+        ).to.equal(
+          [][methodName](predicate)
+        );
+      });     
+     
+      it(`should call the callback function passing an index the way that Array.prototype.${methodName} would`, function() {
+        let indices = [];
+        function predicate(element, index) {
+          indices.push(index);
+          return element === 'y';
+        }
+
+        let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
+        pq[methodName](predicate);
+        let pqIndices = [...indices];
+
+        indices = [];
+        ['w', 'x', 'y', 'z'][methodName](predicate);
+        let arrIndices = [...indices];
+
+        expect(pqIndices).to.deep.equal(arrIndices);
+      });
+
+      it('should pass the original priority queue to the callback function', function() {
+        let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+        pq[methodName](function(element, index, pqReference) {
+          expect(pqReference).to.equal(pq);
+          return false;
+        });
+      });
+
+      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
+        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        let elements = [];
+        pq[methodName](function(element) {
+          elements.push(element);
+          pq.dequeue();
+        });
+
+        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+
+      });
+      
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
+        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        let elements = [];
+        pq[methodName](function(element, index) {
+          elements.push(element);
+          pq.enqueue(index + 1);
+          pq.enqueue(index + 2);
+        });
+
+        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+
+      });
+
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
+        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        let elements = [];
+        pq[methodName](function(element, index) {
+          elements.push(element);
+          pq.enqueue(pq.dequeue() + 1);
+        });
+
+        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+      
+      });
+
+      it(`should set the context of the callback to the same value that Array.prototype.${methodName} would by default`, function() {
+        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        let context;
+        pq[methodName](function() {
+          context = this;
+          return false;
+        });
+
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].find(function() {
+          expect(this).to.equal(context);
+          return false;
+        });
+
+      });
+
+      it('should set the context of the callback to the given argument', function() {
+        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        let context = {};
+        pq[methodName](function() {
+          expect(this).to.equal(context);
+          return false;
+        }, context);
+
+      });
+
+    });
+  };
+  
+  describeFindMethod('find');
+  describeFindMethod('findIndex');
+}
+
 describe('#length', function() {
   it('should be correct for a zero-length priority queue', function() {
     expect((new PriorityQueue()).length).to.equal(0);
