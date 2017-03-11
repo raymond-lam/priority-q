@@ -1068,7 +1068,7 @@ describe('#peak', function() {
 
 { 
   let describeReduceMethod = function(methodName) {
-    describe('#' + methodName, function() {
+    describe(`#${methodName}`, function() {
       it('should reduce in the same manner that an Array reduces, the elements being iterated over in sorted order', function() {
         function concatReduce(accumulator, currentValue) {
           return accumulator + currentValue;
