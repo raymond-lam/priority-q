@@ -903,7 +903,7 @@ describe('#join', function() {
           return false;
         });
 
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].find(function() {
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][methodName](function() {
           expect(this).to.equal(context);
           return false;
         });
