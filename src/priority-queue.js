@@ -174,6 +174,15 @@ class PriorityQueue {
     return Array.from(this).join(...arguments);
   }
 
+  // Returns a new array with the results of calling a provided function on 
+  // every element in this priority queue in order.
+  map(callback, thisArg) {
+    let arr = [];
+    for (let [i, element] of this.entries())
+      arr.push(callback.call(thisArg, element, i, this));
+    return arr;
+  }
+
   // Returns the minimum element of the priority queue without removing it.
   peek() {
     return this._heap[0];

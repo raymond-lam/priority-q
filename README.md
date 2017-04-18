@@ -81,6 +81,12 @@ Joins the elements of the priority queue in sorted order into a string, in the m
 
 Integer property which reflects the number of elements in the priority queue.
 
+### map(callback[, thisArg])
+
+Creates a new `Array` with the results of calling the provided function `callback` on every element in the priority queue in sorted order. The context in which `callback` is called is `thisArg`.
+
+The parameters of the callback function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue.
+
 ### peek()
 
 Returns the element of the priority queue which is least in value (according to the default comparator or the comparator given to the constructor) without removing it.

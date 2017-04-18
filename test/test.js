@@ -1,6 +1,50 @@
 import PriorityQueue from "../src/priority-queue";
 import { expect } from 'chai';
 
+// Helper function which asserts that the given method passes the original
+// priority queue into the callback function. Takes as arguments the name of the
+// method and a return value for the callback function.
+function itShouldPassTheOriginalPriorityQueueToTheCallbackFunction(methodName, returnValue) {
+  it('should pass the original priority queue to the callback function', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+    pq[methodName](function(element, index, pqReference) {
+      expect(pqReference).to.equal(pq);
+      return returnValue;
+    });
+  });
+}
+
+// Helper function which asserts that the given method sets the context of the
+// callback function correctly. Takes as arguments the name of the method and
+// a return value for the callback function.
+function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
+  it(`should set the context of the callback to the same value that Array.prototype.${methodName} would by default`, function() {
+    let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    let context;
+    pq[methodName](function() {
+      context = this;
+      return returnValue;
+    });
+
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][methodName](function() {
+      expect(this).to.equal(context);
+      return returnValue;
+    });
+
+  });
+
+  it('should set the context of the callback to the given argument', function() {
+    let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    let context = {};
+    pq[methodName](function() {
+      expect(this).to.equal(context);
+      return false;
+    }, context);
+
+  });
+
+}
+
 describe('constructor', function() {
   it('should create an empty priority queue constructor given no arguments' , function() {
     expect((new PriorityQueue()).length).to.equal(0);
@@ -850,14 +894,6 @@ describe('#join', function() {
         expect(pqIndices).to.deep.equal(arrIndices);
       });
 
-      it('should pass the original priority queue to the callback function', function() {
-        let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-        pq[methodName](function(element, index, pqReference) {
-          expect(pqReference).to.equal(pq);
-          return false;
-        });
-      });
-
       it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
         let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
         let elements = [];
@@ -895,37 +931,83 @@ describe('#join', function() {
       
       });
 
-      it(`should set the context of the callback to the same value that Array.prototype.${methodName} would by default`, function() {
-        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
-        let context;
-        pq[methodName](function() {
-          context = this;
-          return false;
-        });
-
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][methodName](function() {
-          expect(this).to.equal(context);
-          return false;
-        });
-
-      });
-
-      it('should set the context of the callback to the given argument', function() {
-        let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
-        let context = {};
-        pq[methodName](function() {
-          expect(this).to.equal(context);
-          return false;
-        }, context);
-
-      });
-
+      itShouldPassTheOriginalPriorityQueueToTheCallbackFunction(methodName, false);
+      itShouldSetTheContextOfTheCallbackCorrectly(methodName, false);
     });
   };
   
   describeFindMethod('find');
   describeFindMethod('findIndex');
 }
+
+describe('#map', function() {
+  it('should return an Array', function() {
+    expect((new PriorityQueue(
+      [
+        5, 
+        4, 
+        3, 
+        2, 
+        1,
+      ]
+    )).map(function(element) { return element; })).to.be.an('array');
+  });
+
+  it('should return what Array.prototype.map would', function() {
+    let pq = new PriorityQueue([
+      { value: 5 },
+      { value: 4 },
+      { value: 3 },
+      { value: 2 },
+      { value: 1 },
+    ], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+
+    let callback = function(element) {
+      return element.value;
+    };
+
+    expect(pq.map(callback)).to.deep.equal([
+      { value: 1 },
+      { value: 2 },
+      { value: 3 },
+      { value: 4 },
+      { value: 5 },
+    ].map(callback));
+  });
+
+  it('should return what Array.prototype.map would when the priority queue is empty', function() {
+    let pq = new PriorityQueue();
+
+    let callback = function(element) {
+      return { value: element };
+    };
+
+    expect(pq.map(callback)).to.deep.equal([].map(callback));
+  });
+
+  it('should disregard elements which are enqueued in the callback', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+    expect(pq.map(function(element) {
+      pq.enqueue(10);
+      return element;
+    })).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  it('should map elements even if they are dequeued in the callback', function() {
+    let pq = new PriorityQueue([5, 4, 3, 2, 1]);
+    expect(pq.map(function(element) {
+      pq.dequeue();
+      return element;
+    })).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('map');
+  itShouldSetTheContextOfTheCallbackCorrectly('map');
+});
 
 describe('#length', function() {
   it('should be correct for a zero-length priority queue', function() {
