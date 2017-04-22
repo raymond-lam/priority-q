@@ -646,6 +646,75 @@ describe('#entries', function() {
 
 });
 
+describe('#every', function() {
+  it('should return what Array.prototype.every would when none of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 4, 5])).every(predicate)
+    ).to.equal(
+      [1, 2, 4, 5].every(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.every would when some of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 3, 4, 5, 6])).every(predicate)
+    ).to.equal(
+      [1, 2, 3, 4, 5, 6].every(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.every would when all of the elements satisfy the predicate', function() {
+    function predicate() {
+      return true;
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 3, 4, 5, 6])).every(predicate)
+    ).to.equal(
+      [1, 2, 3, 4, 5, 6].every(predicate)
+    );
+  });
+
+  it('should iterate through the elements the way Array.prototype.every would', function() {
+    let pqIndices = [];
+    (new PriorityQueue([5, 6, 7, 8, 9])).every(function(element, index) {
+      pqIndices.push(index);
+      return element < 7;
+    });
+
+    let arrIndices = [];
+
+    [5, 6, 7, 8, 9].every(function(element, index) {
+      arrIndices.push(index);
+      return element < 7;
+    });
+
+    expect(pqIndices).to.deep.equal(arrIndices);
+
+  });
+
+  it('should return what Array.prototype.every would for an empty Array if the priority queue is empty', function() {
+    expect(
+      (new PriorityQueue()).every(function() { return false; })
+    ).to.equal(
+      [].every(function() { return false; })
+    );
+  });
+
+  itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('every', false);
+  itShouldSetTheContextOfTheCallbackCorrectly('every', false);
+
+});
+
+
 describe('#includes', function() {
   it("should return what an empty Array's #include would return", function() {
     expect(
@@ -1242,6 +1311,74 @@ describe('#peak', function() {
   describeReduceMethod('reduce');
   describeReduceMethod('reduceRight');
 }
+
+describe('#some', function() {
+  it('should return what Array.prototype.some would when none of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 4, 5])).some(predicate)
+    ).to.equal(
+      [1, 2, 4, 5].some(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.some would when some of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 3, 4, 5, 6])).some(predicate)
+    ).to.equal(
+      [1, 2, 3, 4, 5, 6].some(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.some would when all of the elements satisfy the predicate', function() {
+    function predicate() {
+      return true;
+    }
+
+    expect(
+      (new PriorityQueue([1, 2, 3, 4, 5, 6])).some(predicate)
+    ).to.equal(
+      [1, 2, 3, 4, 5, 6].some(predicate)
+    );
+  });
+
+  it('should iterate through the elements the way Array.prototype.some would', function() {
+    let pqIndices = [];
+    (new PriorityQueue([5, 6, 7, 8, 9])).some(function(element, index) {
+      pqIndices.push(index);
+      return element === 7;
+    });
+
+    let arrIndices = [];
+
+    [5, 6, 7, 8, 9].some(function(element, index) {
+      arrIndices.push(index);
+      return element === 7;
+    });
+
+    expect(pqIndices).to.deep.equal(arrIndices);
+
+  });
+
+  it('should return what Array.prototype.some would for an empty Array if the priority queue is empty', function() {
+    expect(
+      (new PriorityQueue()).some(function() { return false; })
+    ).to.equal(
+      [].some(function() { return false; })
+    );
+  });
+
+  itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('some', false);
+  itShouldSetTheContextOfTheCallbackCorrectly('some', false);
+
+});
 
 describe('#toLocaleString', function(){ 
   it('should return the same as #toLocaleString of a sorted Array for a priority queue', function() {

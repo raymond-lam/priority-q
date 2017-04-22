@@ -125,7 +125,15 @@ class PriorityQueue {
       yield [i++, value];
     }
   }
-  
+ 
+  // Tests whether all elements in the priority queue pass the test implemented 
+  // by the provided function. 
+  every(callback, thisArg) {
+    for (let [i, element] of this.entries())
+      if (!callback.call(thisArg, element, i, this)) return false;
+    return true;
+  }
+
   // Returns the value of the first element in the priority queue that satisfies
   // the provided testing function, or undefined otherwise.
   find(callback, thisArg) {
@@ -149,24 +157,20 @@ class PriorityQueue {
     // doesn't matter, so we can just delegate to the heap
     if (fromIndex === 0) return this._heap.includes(searchElement);
 
-    // Negative fromIndex means start that many from the end of the priority queue
+    // Negative fromIndex means start that many from the end of the priority 
+    // queue
     if (fromIndex < 0) fromIndex = this.length + fromIndex;
 
-    // Return true if the searchElement is in the priority queue at or after the given
-    // fromIndex
-    if (Number.isNaN(searchElement)) {
-      for (let [i, value] of this.entries()) {
-        if (i >= fromIndex && Number.isNaN(value)) return true;
-      }
-    }
-    else {
-      for (let [i, value] of this.entries()) {
-        if (i >= fromIndex && value === searchElement) return true;
-      }
-    }
-
-    // If we get this far, we haven't found the element.
-    return false;
+    // Return true if there is an element in the priority queue that is at
+    // for after fromIndex that matches the searchElement.
+    if (Number.isNaN(searchElement))
+      return this.some(function(element, i) { 
+        return i >= fromIndex && Number.isNaN(element);
+      });
+    else
+      return this.some(function(element, i) {
+        return i >= fromIndex && element === searchElement;
+      });
   }
 
   // Joins the elements of the priority queue in sorted order into a string.
@@ -202,6 +206,14 @@ class PriorityQueue {
     for (let [i, element] of Array.from(this.entries()).reverse())
       initialValue = callback(initialValue, element, i, this);
     return initialValue;
+  }
+
+  // Tests whether some element in the priority queue passes the test 
+  // implemented by the provided function.
+  some(callback, thisArg) {
+    for (let [i, element] of this.entries())
+      if (callback.call(thisArg, element, i, this)) return true;
+    return false;
   }
 
   // JSON.stringify of this priority queue should be the JSON of the elements

@@ -57,6 +57,12 @@ Inserts each given argument into the appropriate place in the priority queue. Re
 
 Returns a new `Iterator` object which iterates over key/value pairs of the priority queue in sorted over, where the key is the element's position in the priority queue.
 
+### every(callback[, thisArg])
+
+Tests whether every element in the priority queue passes the test implemented by the provided testing function `callback`. The context in which the testing function is called is `thisArg`.
+
+The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
+
 ### find(callback[, thisArg])
 
 Returns the value of the first element in the priority queue that satisfies the provided testing function `callback`, or `undefined` otherwise. The context in which the testing function is called is `thisArg`.
@@ -106,6 +112,12 @@ Applies the given callback function against an accumulator (which begins as the 
 The parameters of the callback function are: the accumulated value previously returned in the last invocation of the callback, or the given `initialValue` if supplied for the first invocation; the current element being processed; the position of the current element in the priority queue; and a reference to the priority queue.
 
 Note that the callback function is applied to all elements of the priority queue that were present at the time of the call to `reduce`, and only those elements, even if the callback function itself adds or removes elements from the priority queue.
+
+### some(callback[, thisArg])
+
+Tests whether some element in the priority queue passes the test implemented by the provided testing function `callback`. The context in which the testing function is called is `thisArg`.
+
+The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
 
 ### toJSON()
 
