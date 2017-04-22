@@ -714,170 +714,177 @@ describe('#every', function() {
 
 });
 
+{
+  let describeIncludesOrIndexOf = function(methodName) {
+    
+    describe(`#${methodName}`, function() {
+      it(`should return what an empty Array's #${methodName} would return`, function() {
+        expect(
+          (new PriorityQueue([]))[methodName](3)
+        ).to.equal(
+          [][methodName](3)
+        );
+      });
 
-describe('#includes', function() {
-  it("should return what an empty Array's #include would return", function() {
-    expect(
-      (new PriorityQueue([])).includes(3)
-    ).to.equal(
-      [].includes(3)
-    );
-  });
+      it(`should return what an empty Array's #${methodName} would return, with fromIndex`, function() {
+        expect(
+          (new PriorityQueue([]))[methodName](3, 2)
+        ).to.equal(
+          [][methodName](3, 2)
+        );
+      });
+     
+      it(`should return what an empty Array's #${methodName} would return, with negative fromIndex`, function() {
+        expect(
+          (new PriorityQueue([]))[methodName](3, -2)
+        ).to.equal(
+          [][methodName](3, -2)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is present`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 3, 2]))[methodName](3)
+        ).to.equal(
+          [2, 3, 3, 4, 5][methodName](3)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is not present`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](1)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](1)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is present, 0 fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 3, 2]))[methodName](3, 0)
+        ).to.equal(
+          [2, 3, 3, 4, 5][methodName](3, 0)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is not present, 0 fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](1, 0)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](1, 0)
+        );
+      });
 
-  it("should return what an empty Array's #include would return, with fromIndex", function() {
-    expect(
-      (new PriorityQueue([])).includes(3, 2)
-    ).to.equal(
-      [].includes(3, 2)
-    );
-  });
- 
-  it("should return what an empty Array's #include would return, with negative fromIndex", function() {
-    expect(
-      (new PriorityQueue([])).includes(3, -2)
-    ).to.equal(
-      [].includes(3, -2)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is present", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(3)
-    ).to.equal(
-      [2, 3, 4, 5].includes(3)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is not present", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(1)
-    ).to.equal(
-      [2, 3, 4, 5].includes(1)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is present, 0 fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(3, 0)
-    ).to.equal(
-      [2, 3, 4, 5].includes(3, 0)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is not present, 0 fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(1, 0)
-    ).to.equal(
-      [2, 3, 4, 5].includes(1, 0)
-    );
-  });
+      it(`should return what Array's #${methodName} would return where the search element is present in search segment`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 4, 3, 2]))[methodName](4, 1)
+        ).to.equal(
+          [2, 3, 4, 4, 5][methodName](4, 1)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](2, 3)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](2, 3)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](1, 1)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](1, 1)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is present in search segment, negative fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](4, -2)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](4, -2)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment, negative fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](2, -1)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](2, -1)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue, negative fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](1, -1)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](1, -1)
+        );
+      });
 
-  it("should return what Array's #include would return where the search element is present in search segment", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(4, 1)
-    ).to.equal(
-      [2, 3, 4, 5].includes(4, 1)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is present but not in search segment", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(2, 3)
-    ).to.equal(
-      [2, 3, 4, 5].includes(2, 3)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is not present in search segment or rest of priority queue", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(1, 1)
-    ).to.equal(
-      [2, 3, 4, 5].includes(1, 1)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is present in search segment, negative fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(4, -2)
-    ).to.equal(
-      [2, 3, 4, 5].includes(4, -2)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is present but not in search segment, negative fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(2, -1)
-    ).to.equal(
-      [2, 3, 4, 5].includes(2, -1)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is not present in search segment or rest of priority queue, negative fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(1, -1)
-    ).to.equal(
-      [2, 3, 4, 5].includes(1, -1)
-    );
-  });
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2, NaN]))[methodName](NaN)
+        ).to.equal(
+          [2, 3, 4, 5, NaN][methodName](NaN)
+        );
+      });
+      
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is not present`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2]))[methodName](NaN)
+        ).to.equal(
+          [2, 3, 4, 5][methodName](NaN)
+        );
+      }); 
+      
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+            if (Number.isNaN(a)) return 1;
+            else if (Number.isNaN(b)) return -1;
+            else if (a > b) return 1;
+            else if (b > a) return -1;
+            else return 0 
+          }))[methodName](NaN, 1)
+        ).to.equal(
+          [2, 3, 4, 5, NaN][methodName](NaN, 1)
+        );
+      }); 
+      
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment, negative fromIndex`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+            if (Number.isNaN(a)) return -1;
+            else if (Number.isNaN(b)) return 1;
+            else if (a > b) return 1;
+            else if (b > a) return -1;
+            else return 0 
+          }))[methodName](NaN, -5)
+        ).to.equal(
+          [NaN, 2, 3, 4, 5][methodName](NaN, -5)
+        );
+      });
 
-  it("should return what Array's #include would return where the search element is NaN and is present", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN])).includes(NaN)
-    ).to.equal(
-      [2, 3, 4, 5, NaN].includes(NaN)
-    );
-  });
-  
-  it("should return what Array's #include would return where the search element is NaN and is not present", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2])).includes(NaN)
-    ).to.equal(
-      [2, 3, 4, 5].includes(NaN)
-    );
-  }); 
-  
-  it("should return what Array's #include would return where the search element is NaN and is present in search segment", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
-        if (Number.isNaN(a)) return 1;
-        else if (Number.isNaN(b)) return -1;
-        else if (a > b) return 1;
-        else if (b > a) return -1;
-        else return 0 
-      })).includes(NaN, 1)
-    ).to.equal(
-      [2, 3, 4, 5, NaN].includes(NaN, 1)
-    );
-  }); 
-  
-  it("should return what Array's #include would return where the search element is NaN and is present in search segment, negative fromIndex", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
-        if (Number.isNaN(a)) return -1;
-        else if (Number.isNaN(b)) return 1;
-        else if (a > b) return 1;
-        else if (b > a) return -1;
-        else return 0 
-      })).includes(NaN, -5)
-    ).to.equal(
-      [NaN, 2, 3, 4, 5].includes(NaN, -5)
-    );
-  });
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present but not in search segment`, function() {
+        expect(
+          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+            if (Number.isNaN(a)) return -1;
+            else if (Number.isNaN(b)) return 1;
+            else if (a > b) return 1;
+            else if (b > a) return -1;
+            else return 0 
+          }))[methodName](NaN, 1)
+        ).to.equal(
+          [NaN, 2, 3, 4, 5][methodName](NaN, 1)
+        );
+      }); 
+    });
+  };
 
-  it("should return what Array's #include would return where the search element is NaN and is present but not in search segment", function() {
-    expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
-        if (Number.isNaN(a)) return -1;
-        else if (Number.isNaN(b)) return 1;
-        else if (a > b) return 1;
-        else if (b > a) return -1;
-        else return 0 
-      })).includes(NaN, 1)
-    ).to.equal(
-      [NaN, 2, 3, 4, 5].includes(NaN, 1)
-    );
-  }); 
-});
+  describeIncludesOrIndexOf('includes');
+  describeIncludesOrIndexOf('indexOf');
+}
 
 describe('#join', function() {
   it('should join the elements of the priority queue in sorted order', function() {
@@ -1008,6 +1015,170 @@ describe('#join', function() {
   describeFindMethod('find');
   describeFindMethod('findIndex');
 }
+
+describe('#lastIndexOf', function() {
+  it("should return what an empty Array's #lastIndexOf would return", function() {
+    expect(
+      (new PriorityQueue([])).lastIndexOf(3)
+    ).to.equal(
+      [].lastIndexOf(3)
+    );
+  });
+
+  it("should return what an empty Array's #lastIndexOf would return, with fromIndex", function() {
+    expect(
+      (new PriorityQueue([])).lastIndexOf(3, 2)
+    ).to.equal(
+      [].lastIndexOf(3, 2)
+    );
+  });
+ 
+  it("should return what an empty Array's #lastIndexOf would return, with negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([])).lastIndexOf(3, -2)
+    ).to.equal(
+      [].lastIndexOf(3, -2)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 3, 2])).lastIndexOf(3)
+    ).to.equal(
+      [2, 3, 3, 4, 5].lastIndexOf(3)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is not present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(1)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is present, fromIndex last element", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(3, 3)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(3, 3)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is not present, fromIndex last element", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, 3)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(1, 3)
+    );
+  });
+
+  it("should return what Array's #lastIndexOf would return where the search element is present in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 4, 3, 2])).lastIndexOf(4, 3)
+    ).to.equal(
+      [2, 3, 4, 4, 5].lastIndexOf(4, 3)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(4, 1)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(4, 1)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, 2)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(1, 2)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is present in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([6, 5, 4, 4, 3, 2])).lastIndexOf(4, -2)
+    ).to.equal(
+      [2, 3, 4, 4, 5, 5].lastIndexOf(4, -2)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(5, -2)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(5, -2)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, -2)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(1, -2)
+    );
+  });
+
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN])).lastIndexOf(NaN)
+    ).to.equal(
+      [2, 3, 4, 5, NaN].lastIndexOf(NaN)
+    );
+  });
+  
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is not present", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(NaN)
+    ).to.equal(
+      [2, 3, 4, 5].lastIndexOf(NaN)
+    );
+  }); 
+  
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return 1;
+        else if (Number.isNaN(b)) return -1;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).lastIndexOf(NaN, 4)
+    ).to.equal(
+      [2, 3, 4, 5, NaN].lastIndexOf(NaN, 4)
+    );
+  }); 
+  
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment, negative fromIndex", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return -1;
+        else if (Number.isNaN(b)) return 1;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).lastIndexOf(NaN, -2)
+    ).to.equal(
+      [NaN, 2, 3, 4, 5].lastIndexOf(NaN, -2)
+    );
+  });
+
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present but not in search segment", function() {
+    expect(
+      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+        if (Number.isNaN(a)) return 1;
+        else if (Number.isNaN(b)) return -11;
+        else if (a > b) return 1;
+        else if (b > a) return -1;
+        else return 0 
+      })).lastIndexOf(NaN, -2)
+    ).to.equal(
+      [2, 3, 4, 5, NaN].lastIndexOf(NaN, -2)
+    );
+  }); 
+});
 
 describe('#map', function() {
   it('should return an Array', function() {

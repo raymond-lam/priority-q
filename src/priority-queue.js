@@ -173,9 +173,27 @@ class PriorityQueue {
       });
   }
 
+  // Returns the first index at which a given element can be found in the array,
+  // or -1 if it is not present
+  indexOf(searchElement, fromIndex = 0) {
+    if (fromIndex < 0) fromIndex = this.length + fromIndex;
+
+    return this.findIndex(function(element, index) {
+      // This test fails for NaN, but that's okay, because it matches the
+      // behavior of Array.prototype.indexOf
+      return (index >= fromIndex && element === searchElement);
+    });
+  }
+
   // Joins the elements of the priority queue in sorted order into a string.
   join() {
     return Array.from(this).join(...arguments);
+  }
+
+  // Returns the last index at which a given element can be found in the array,
+  // or -1 if it is not present
+  lastIndexOf() {
+    return Array.from(this).lastIndexOf(...arguments);
   }
 
   // Returns a new array with the results of calling a provided function on 
