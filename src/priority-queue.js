@@ -51,7 +51,13 @@ class PriorityQueue {
     // up.
     return new PriorityQueue(this._heap, this._cmp);
   }
- 
+
+  // Returns an Array of the priority queue's elements in sorted order
+  // concatenated with the given arguments.
+  concat() {
+    return Array.from(this).concat(...arguments);
+  }
+
   // Removes the minimum element of the priority queue, Returns undefined if the
   // priority queue is empty.
   dequeue() {

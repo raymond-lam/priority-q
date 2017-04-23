@@ -45,6 +45,10 @@ Removes all elements from the priority queue. Returns the number of elements rem
 
 Returns a shallow clone of the priority queue, which is to say, returns a new priority queue with the exact same elements and comparator.
 
+### concat(value1[, value2[, ...[, valueN]]])
+
+Return a new  `Array` consisting of the elements of the priority queue in sorted order, followed in order by, for each argument, the elements of that argument (if the argument is an `Array`) or the argument itself (if the argument is not an `Array`), not recursing into nested `Array` arguments.
+
 ### dequeue()
 
 Removes and returns the element of the priority queue which is least in value (according to the default comparator or the comparator given to the constructor). Simply returns `undefined` if the priority queue is empty.

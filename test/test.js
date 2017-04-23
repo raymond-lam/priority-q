@@ -236,6 +236,18 @@ describe('#clone', function() {
 
 });
 
+describe('#concat', function() {
+  it("should return an Array", function() {
+    expect((new PriorityQueue([5, 3, 1])).concat()).to.be.an('array');
+  });
+
+  it("should return a concatenation of an Array of the priority queue's sorted elements with the arguments", function() {
+    expect(
+      (new PriorityQueue([5, 3, 1])).concat([1, 2, 3], 7, [6])
+    ).to.deep.equal([1, 3, 5].concat([1, 2, 3], 7, [6]));
+  });
+});
+
 describe('#dequeue', function() {
   it('should return exactly the element at the head for a priority queue with initial elements', function() {
     let head = { value: 1 };
