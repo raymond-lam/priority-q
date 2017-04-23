@@ -71,13 +71,13 @@ The parameters of the testing function are: the current element, the position of
 
 Returns the value of the first element in the priority queue that satisfies the provided testing function `callback`, or `undefined` otherwise. The context in which the testing function is called is `thisArg`.
 
-The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherewise.
+The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
 
 ### findIndex(callback[, thisArg])
 
 Returns the position of the first element in the priority queue that satisfies the provided testing function `callback`, or `-1` otherwise. The context in which the testing function is called is `thisArg`.
 
-The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherewise.
+The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
 
 ### forEach(callback[, thisArg]);
 
