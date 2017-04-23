@@ -31,7 +31,7 @@ The priority queue class is made available as module defined in the [UMD](https:
 
 ### *constructor*([init[, cmp]])
 
-The constructor takes two optional arguments: Array of initial elements, and a comparator function. The constructor will create a priority queue, where the element with the least value is always dequeued, and enqueue each of the given initial elements. The comparator function, which should take two elements as arguments and return 1 if the first element is greater in value, -1 if the second element is greater in value, and 0 they are equal in value, will be used for all comparisons necessary to keep the priority queue in order. The default comparator simply returns 1 or -1 if the first element is `<` or `>` the second element respectively, or 0 otherwise. 
+The constructor takes two optional arguments: `Array` of initial elements, and a comparator function. The constructor will create a priority queue, where the element with the least value is always dequeued, and enqueue each of the given initial elements. The comparator function, which should take two elements as arguments and return 1 if the first element is greater in value, -1 if the second element is greater in value, and 0 they are equal in value, will be used for all comparisons necessary to keep the priority queue in order. The default comparator simply returns 1 or -1 if the first element is `<` or `>` the second element respectively, or 0 otherwise. 
 
 ### *iterable protocol*
 
@@ -133,15 +133,15 @@ The parameters of the testing function are: the current element, the position of
 
 ### toJSON()
 
-Returns the elements of the priority queue as an Array in sorted order, so that `JSON.stringify` when applied to the priority queue returns the JSON string of a sorted array of the priority queue's elements.
+Returns the elements of the priority queue as an `Array` in sorted order, so that `JSON.stringify` when applied to the priority queue returns the JSON string of a sorted array of the priority queue's elements.
 
 ### toLocaleString()
 
-Returns the `.toLocaleString()` of an Array containing the priority queue's elements in sorted order. 
+Returns the `.toLocaleString()` of an `Array` containing the priority queue's elements in sorted order. 
 
 ### toString()
 
-Returns the `.toString()` of an Array containing the priority queue's elements in sorted order. 
+Returns the `.toString()` of an `Array` containing the priority queue's elements in sorted order. 
 
 ### values()
 
