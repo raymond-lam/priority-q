@@ -156,6 +156,13 @@ class PriorityQueue {
     return -1;
   }
 
+  // Calls the given function on each element of the priority queue in order,
+  // optionally in the context of the given thisArg.
+  forEach(callback, thisArg) {
+    for(let [i, element] of this.entries())
+      callback.call(thisArg, element, i, this);
+  }
+
   // Returns true if searchElement is present in the priority queue, starting
   // search at fromIndex
   includes(searchElement, fromIndex = 0) {

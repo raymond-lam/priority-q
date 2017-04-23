@@ -726,6 +726,49 @@ describe('#every', function() {
 
 });
 
+describe('#forEach', function() {
+  it('should call the callback on each element of the priority queue in order', function() {
+    let elements = [];
+
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element) {
+      elements.push(element);
+    });
+
+    expect(elements).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+  
+  it('should not call the callback if the priority queue is empty', function() {
+    let numberOfCalls = 0;
+    (new PriorityQueue()).forEach(function() { ++numberOfCalls; });
+    expect(numberOfCalls).to.equal(0);
+  });
+
+  it('should only call the callback function on the elements present in the priority queue at the time of call, even if the callback function adds elements', function() {
+    let elements = [];
+
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element, index, pq) {
+      pq.enqueue(10);
+      elements.push(element);
+    });
+
+    expect(elements).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  it('should call the callback function on all the elements present in the priority queue at the time of call, even if the callback function adds elements', function() {
+    let elements = [];
+
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element, index, pq) {
+      pq.dequeue();
+      elements.push(element);
+    });
+
+    expect(elements).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+  
+  itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('forEach');
+  itShouldSetTheContextOfTheCallbackCorrectly('forEach');
+});
+
 {
   let describeIncludesOrIndexOf = function(methodName) {
     

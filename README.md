@@ -79,6 +79,12 @@ Returns the position of the first element in the priority queue that satisfies t
 
 The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherewise.
 
+### forEach(callback[, thisArg]);
+
+Calls the provided function `callback` once for each element in the priority queue in sorted order. The context in which `callback` is called is `thisArg`.
+
+The parameters of the `callback` function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue.
+
 ### includes(searchElement[, fromIndex])
 
 Searches the priority queue for the given `searchElement` and returns `true` if found, `false` otherwise. Optionally specify `fromIndex` to start the search at that position in the priority queue. A negative `fromIndex` will start the search at position `length + fromIndex`.
