@@ -234,6 +234,28 @@ describe('#clone', function() {
     ]).to.deep.equal([1, 2, 3]);
   });
 
+  it('should return a priority queue of the same type by default', function() {
+    class PriorityQueueChild extends PriorityQueue {};
+
+    expect(
+      (new PriorityQueueChild([1, 2, 3])).clone()
+    ).to.be.instanceOf(PriorityQueueChild);
+  });
+
+  it('should return a priority queue of the type specified by Symbol.species', function() {
+    class PriorityQueueChild1 extends PriorityQueue {};
+    class PriorityQueueChild2 extends PriorityQueue {
+      static get [Symbol.species]() { 
+        return PriorityQueueChild1;
+      }
+    };
+
+    expect(
+      (new PriorityQueueChild2([1, 2, 3])).clone()
+    ).to.be.instanceOf(PriorityQueueChild1);
+
+  });
+
 });
 
 describe('#concat', function() {

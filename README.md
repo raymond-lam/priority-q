@@ -43,7 +43,9 @@ Removes all elements from the priority queue. Returns the number of elements rem
 
 ### clone()
 
-Returns a shallow clone of the priority queue, which is to say, returns a new priority queue with the exact same elements and comparator.
+Returns a shallow clone of the priority queue, which is to say, returns a new priority queue with the exact same elements and comparator. 
+
+Returns a priority queue which is of the same type as the original priority queue, unless the class's `Symbol.species` static property is overridden, in which case the returned priority queue's type will be as specified by the `Symbol.species` static property.
 
 ### concat(value1[, value2[, ...[, valueN]]])
 

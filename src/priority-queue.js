@@ -14,7 +14,7 @@ function defaultCmp(a, b) {
   else return 0;
 }
 
-class PriorityQueue {
+export default class {
   // Constructor takes initial elements of the priority queue (which defaults to
   // an empty array) and a comparator (which defaults to defaultCmp). It
   // constructs a priority queue, where the given comparator will always be used
@@ -49,7 +49,11 @@ class PriorityQueue {
     // Should be O(n) time complexity, because elements enqueued directly from a
     // a heap will already be in the correct order and not need to be percolated
     // up.
-    return new PriorityQueue(this._heap, this._cmp);
+    
+    if (this.constructor[Symbol.species]) 
+      return new this.constructor[Symbol.species](this._heap, this._cmp);
+    else
+      return new this.constructor(this._heap, this._cmp);
   }
 
   // Returns an Array of the priority queue's elements in sorted order
@@ -310,5 +314,3 @@ class PriorityQueue {
     this._heap[i2] = tmp;
   }
 };
-
-export default PriorityQueue;
