@@ -222,9 +222,15 @@ export default class {
     return arr;
   }
 
-  // Returns the minimum element of the priority queue without removing it.
-  peek() {
-    return this._heap[0];
+  // Returns an element of the priority queue without removing it.
+  peek(searchIndex = 0) {
+    if (searchIndex === 0) return this._heap[0];
+    else {
+      if (searchIndex < 0) searchIndex = this.length + searchIndex;
+      return this.find(function(element, index) {
+        return index === searchIndex;
+      });
+    }
   }
 
   // Applies a function against an accumulator and each value of the priority 

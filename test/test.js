@@ -1463,6 +1463,119 @@ describe('#peak', function() {
     ]).to.deep.equal([1, 2, 3]);
     
   });
+
+  it('should return exactly the element at the specified positive index', function() {
+
+    let pq = new PriorityQueue([], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+   
+
+    let element = { value: 2 }; 
+    pq.enqueue({ value: 1 });
+    pq.enqueue(element);
+    pq.enqueue({ value: 4 });
+    pq.enqueue({ value: 3 });
+    
+    expect(pq.peek(1)).to.equal(element); 
+  });
+
+  it('should return exactly the element at the specified positive index for a priority queue with initial elements', function() {
+
+    let element = { value: 2 }; 
+    let pq = new PriorityQueue([
+      { value: 1 },
+      { value: 3 },
+      { value: 4 },
+      element,
+    ], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+    
+    expect(pq.peek(1)).to.equal(element); 
+  });
+
+  it('should not mutate the priority queue when a positive index is specified', function() {
+    let pq = new PriorityQueue();
+    pq.enqueue(1);
+    pq.enqueue(2);
+    pq.enqueue(3);
+    pq.peek(2);
+
+    expect(pq.length).to.equal(3);
+    expect([
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+    ]).to.deep.equal([1, 2, 3]);
+    
+  });
+  
+  it('should return exactly the element at the specified negative index', function() {
+
+    let pq = new PriorityQueue([], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+   
+
+    let element = { value: 2 }; 
+    pq.enqueue({ value: 1 });
+    pq.enqueue(element);
+    pq.enqueue({ value: 4 });
+    pq.enqueue({ value: 3 });
+    
+    expect(pq.peek(-3)).to.equal(element); 
+  });
+
+  it('should return exactly the element at the specified negative index for a priority queue with initial elements', function() {
+
+    let element = { value: 2 }; 
+    let pq = new PriorityQueue([
+      { value: 1 },
+      { value: 3 },
+      { value: 4 },
+      element,
+    ], function(a, b) {
+      if (a.value > b.value) return 1;
+      else if (a.value < b.value) return -1;
+      else return 0;
+    });
+    
+    expect(pq.peek(-3)).to.equal(element); 
+  });
+
+  it('should not mutate the priority queue when a negative index is specified', function() {
+    let pq = new PriorityQueue();
+    pq.enqueue(1);
+    pq.enqueue(2);
+    pq.enqueue(3);
+    pq.peek(-1);
+
+    expect(pq.length).to.equal(3);
+    expect([
+      pq.dequeue(),
+      pq.dequeue(),
+      pq.dequeue(),
+    ]).to.deep.equal([1, 2, 3]);
+  });
+
+  it('should return undefined for an empty priority queue', function() {
+    expect((new PriorityQueue()).peek()).to.be.undefined;
+  });
+
+  it('should return undefined if element at specified positive index does not exist', function() {
+    expect((new PriorityQueue([1, 2, 3])).peek(10)).to.be.undefined;
+  });
+  
+  it('should return undefined if element at specified negative index does not exist', function() {
+    expect((new PriorityQueue([1, 2, 3])).peek(-10)).to.be.undefined;
+  });
 });
 
 { 

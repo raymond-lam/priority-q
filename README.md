@@ -113,9 +113,11 @@ Creates a new `Array` with the results of calling the provided function `callbac
 
 The parameters of the callback function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue.
 
-### peek()
+### peek([index])
 
-Returns the element of the priority queue which is least in value (according to the default comparator or the comparator given to the constructor) without removing it.
+By default, returns the element of the priority queue which is least in value (according to the default comparator or the comparator given to the constructor) without removing it.
+
+If a positive `index` is specified, returns the element present at that index, or `undefined` if such an element does not exist. If a negative `index` is specified, returns the element present at `length + index`, or `undefined` if such an element does not exist.
 
 ### reduce(callback[, initialValue])
 
