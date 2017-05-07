@@ -45,6 +45,31 @@ function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
 
 }
 
+function itShouldRespectSpecies(methodName, ...methodArguments) {
+  it('should return a priority queue of the same type by default', function() {
+    class PriorityQueueChild extends PriorityQueue {};
+
+    expect(
+      (new PriorityQueueChild([1, 2, 3]))[methodName](...methodArguments)
+    ).to.be.instanceOf(PriorityQueueChild);
+  });
+
+  it('should return a priority queue of the type specified by Symbol.species', function() {
+    class PriorityQueueChild1 extends PriorityQueue {};
+    class PriorityQueueChild2 extends PriorityQueue {
+      static get [Symbol.species]() { 
+        return PriorityQueueChild1;
+      }
+    };
+
+    expect(
+      (new PriorityQueueChild2([1, 2, 3]))[methodName](...methodArguments)
+    ).to.be.instanceOf(PriorityQueueChild1);
+
+  });
+
+}
+
 describe('constructor', function() {
   it('should create an empty priority queue constructor given no arguments' , function() {
     expect((new PriorityQueue()).length).to.equal(0);
@@ -234,28 +259,7 @@ describe('#clone', function() {
     ]).to.deep.equal([1, 2, 3]);
   });
 
-  it('should return a priority queue of the same type by default', function() {
-    class PriorityQueueChild extends PriorityQueue {};
-
-    expect(
-      (new PriorityQueueChild([1, 2, 3])).clone()
-    ).to.be.instanceOf(PriorityQueueChild);
-  });
-
-  it('should return a priority queue of the type specified by Symbol.species', function() {
-    class PriorityQueueChild1 extends PriorityQueue {};
-    class PriorityQueueChild2 extends PriorityQueue {
-      static get [Symbol.species]() { 
-        return PriorityQueueChild1;
-      }
-    };
-
-    expect(
-      (new PriorityQueueChild2([1, 2, 3])).clone()
-    ).to.be.instanceOf(PriorityQueueChild1);
-
-  });
-
+  itShouldRespectSpecies('clone'); 
 });
 
 describe('#concat', function() {
@@ -962,6 +966,68 @@ describe('#forEach', function() {
   describeIncludesOrIndexOf('includes');
   describeIncludesOrIndexOf('indexOf');
 }
+
+describe('#filter', function() {
+  it('should return what Array.prototype.filter would when none of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      Array.from((new PriorityQueue([1, 2, 4, 5])).filter(predicate))
+    ).to.deep.equal(
+      [1, 2, 4, 5].filter(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.filter would when some of the elements satisfy the predicate', function() {
+    function predicate(element) {
+      return !(element % 3);
+    }
+
+    expect(
+      Array.from((new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(predicate))
+    ).to.deep.equal(
+      [1, 2, 3, 4, 5, 6].filter(predicate)
+    );
+  });
+  
+  it('should return what Array.prototype.filter would when all of the elements satisfy the predicate', function() {
+    function predicate() {
+      return true;
+    }
+
+    expect(
+      Array.from((new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(predicate))
+    ).to.deep.equal(
+      [1, 2, 3, 4, 5, 6].filter(predicate)
+    );
+  });
+  
+  it('should return empty priority queue if it is empty', function() {
+    expect(
+      (new PriorityQueue()).filter(function() { return true; }).length
+    ).to.equal(0);
+  });
+  
+  it('should iterate through the elements the way Array.prototype.filter would', function() {
+    let pqEntries = [];
+    (new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(function(element, i) {
+      pqEntries.push([element, i]);
+    });
+
+    let arrEntries = [];
+    [1, 2, 3, 4, 5, 6].filter(function(element, i) {
+      arrEntries.push([element, i]);
+    });
+
+    expect(pqEntries).to.deep.equal(arrEntries);
+  });
+
+  itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('filter', true);
+  itShouldSetTheContextOfTheCallbackCorrectly('filter', true);
+  itShouldRespectSpecies('filter', function() { return true; });
+});
 
 describe('#join', function() {
   it('should join the elements of the priority queue in sorted order', function() {
@@ -1672,6 +1738,88 @@ describe('#peak', function() {
   describeReduceMethod('reduce');
   describeReduceMethod('reduceRight');
 }
+
+describe('#slice', function() {
+  it('should return what Array.prototype.slice would return, with no arguments', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice())
+    ).to.deep.equal([1, 2, 3, 4, 5].slice());
+  });
+  
+  it('should return what Array.prototype.slice would return, with a positive begin argument', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(2));
+  });
+  
+  it('should return what Array.prototype.slice would return, with a negative begin argument', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(-2));
+  }); 
+  
+  it('should return what Array.prototype.slice would return, with a positive begin argument out of range', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(10))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(10));
+  }); 
+  
+  it('should return what Array.prototype.slice would return, with a negative begin argument out of range', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-10))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(-10));
+  });
+  
+  it('should return what Array.prototype.slice would return, with a positive end argument', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, 3))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(1, 3));
+  });
+  
+  it('should return what Array.prototype.slice would return, with a negative end argument', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, -2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(1, -2));
+  }); 
+  
+  it('should return what Array.prototype.slice would return, with a positive end argument out of range', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, 10))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(1, 10));
+  }); 
+  
+  it('should return what Array.prototype.slice would return, with a negative end argument out of range', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, -10))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(1, -10));
+  });
+
+  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and positive', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(2, 2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(2, 2));
+  });
+  
+  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and negative', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2, -2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(2, 2));
+  });
+  
+  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are positive', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(4, 2))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(4, 2));
+  }); 
+  
+  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are negative', function() {
+    expect(
+      Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2, -4))
+    ).to.deep.equal([1, 2, 3, 4, 5].slice(-2, -4));
+  });  
+  
+  itShouldRespectSpecies('slice');
+});
 
 describe('#some', function() {
   it('should return what Array.prototype.some would when none of the elements satisfy the predicate', function() {

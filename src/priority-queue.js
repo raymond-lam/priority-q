@@ -202,6 +202,21 @@ export default class {
     });
   }
 
+  // Creates a new priority queue with all elements that pass the test 
+  // implemented by the provided function.
+  filter(callback, thisArg) {
+    let pq = this.constructor[Symbol.species]
+      ? new this.constructor[Symbol.species]([], this._cmp)
+      : new this.constructor([], this._cmp)
+    ;
+
+    for (let [i, element] of this.entries())
+      if (callback.call(thisArg, element, i, this))
+        pq.enqueue(element);
+
+    return pq;
+  }
+
   // Joins the elements of the priority queue in sorted order into a string.
   join() {
     return Array.from(this).join(...arguments);
@@ -247,6 +262,19 @@ export default class {
     for (let [i, element] of Array.from(this.entries()).reverse())
       initialValue = callback(initialValue, element, i, this);
     return initialValue;
+  }
+
+  // Returns a shallow copy of a portion of an priority queue into a new 
+  // priority queue selected from begin to end (end not included). The original 
+  // array is not modified.
+  slice(begin = 0, end = this.length) {
+
+    if (begin < 0) begin = this.length + begin;
+    if (end < 0) end = this.length + end;
+
+    return this.filter(function(element, index) {
+      return index >= begin && index < end;
+    });
   }
 
   // Tests whether some element in the priority queue passes the test 

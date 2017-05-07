@@ -81,7 +81,15 @@ Returns the position of the first element in the priority queue that satisfies t
 
 The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
 
-### forEach(callback[, thisArg]);
+### filter(callback[, thisArg])
+
+Creates a new priority queue with all elements that pass the test implemented by the provided functioni `callback`. The context in which the testing function is called is `thisArg`.
+
+Returns a priority queue which is of the same type as the original priority queue, unless the class's `Symbol.species` static property is overridden, in which case the returned priority queue's type will be as specified by the `Symbol.species` static property.
+
+The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
+
+## forEach(callback[, thisArg]);
 
 Calls the provided function `callback` once for each element in the priority queue in sorted order. The context in which `callback` is called is `thisArg`.
 
@@ -134,6 +142,14 @@ Applies the given callback function against an accumulator (which begins as the 
 The parameters of the callback function are: the accumulated value previously returned in the last invocation of the callback, or the given `initialValue` if supplied for the first invocation; the current element being processed; the position of the current element in the priority queue; and a reference to the priority queue.
 
 Note that the callback function is applied to all elements of the priority queue that were present at the time of the call to `reduce`, and only those elements, even if the callback function itself adds or removes elements from the priority queue.
+
+### slice([begin[, end]])
+
+Returns a shallow copy of a portion of an priority queue into a new priority queue selected from `begin` to `end` (`end` not included). The original priority queue will not be modified.
+
+The default value of `begin` is `0`, and the default value of `end` is the length of the priority queue. If either value is negative, the value of the priority queue's length plus the value is used instead. 
+
+Returns a priority queue which is of the same type as the original priority queue, unless the class's `Symbol.species` static property is overridden, in which case the returned priority queue's type will be as specified by the `Symbol.species` static property.
 
 ### some(callback[, thisArg])
 
