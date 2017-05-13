@@ -1,4 +1,4 @@
-//     priority-queue.js
+//     priority-queue.js 2.0.0
 //     https://github.com/raymond-lam/es6-priority-queue
 //     (c) 2017 Raymond Lam
 //

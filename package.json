@@ -1,6 +1,6 @@
 {
   "name": "@raymond-lam/priority-queue",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "A simple ECMAScript 6 implementation of a priority queue data structure class.",
   "main": "./lib/priority-queue.js",
   "keywords": [

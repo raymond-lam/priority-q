@@ -102,7 +102,7 @@ Returns a priority queue which is of the same type as the original priority queu
 
 The parameters of the testing function are: the current element, the position of the current element in the priority queue, and a reference to the priority queue. The testing function should return `true` if it is satisfied, and `false` otherwise.
 
-## forEach(callback[, thisArg])
+### forEach(callback[, thisArg])
 
 Calls the provided function `callback` once for each element in the priority queue in sorted order. The context in which `callback` is called is `thisArg`.
 
