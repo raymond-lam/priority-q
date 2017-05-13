@@ -4,8 +4,21 @@
 
 A simple ECMAScript 6 implementation of a priority queue data structure class.
 
-In addition to being a useful utility, this implementation serves as a demonstration of a number of features and conveniences that are new to the sixth version of ECMAScript (JavaScript).
- 
+In addition to being a useful utility, this implementation serves as a demonstration of a number of features and conveniences that are new to the sixth version of ECMAScript (JavaScript) including:
+- arrow functions
+- classes, including inheritance, static members, and getters
+- default parameter values
+- destructuring
+- `for...of` loops
+- generators
+- `import` and `export`
+- iteration protocol and iterators
+- `let` and block scoping
+- rest operator
+- spread operator
+- `Symbol.species`
+- template strings
+
 ## Usage
 
 To install: `npm install @raymond-lam/priority-queue`
