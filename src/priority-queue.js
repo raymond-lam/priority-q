@@ -181,13 +181,9 @@ export default class {
     // Return true if there is an element in the priority queue that is at
     // for after fromIndex that matches the searchElement.
     if (Number.isNaN(searchElement))
-      return this.some(function(element, i) { 
-        return i >= fromIndex && Number.isNaN(element);
-      });
+      return this.some((el, i) => i >= fromIndex && Number.isNaN(el));
     else
-      return this.some(function(element, i) {
-        return i >= fromIndex && element === searchElement;
-      });
+      return this.some((el, i) => i >= fromIndex && el === searchElement);
   }
 
   // Returns the first index at which a given element can be found in the array,
@@ -195,11 +191,9 @@ export default class {
   indexOf(searchElement, fromIndex = 0) {
     if (fromIndex < 0) fromIndex = this.length + fromIndex;
 
-    return this.findIndex(function(element, index) {
-      // This test fails for NaN, but that's okay, because it matches the
-      // behavior of Array.prototype.indexOf
-      return (index >= fromIndex && element === searchElement);
-    });
+    // This test fails for NaN, but that's okay, because it matches the
+    // behavior of Array.prototype.indexOf
+    return this.findIndex((el, i) => i >= fromIndex && el === searchElement);
   }
 
   // Creates a new priority queue with all elements that pass the test 
@@ -242,9 +236,7 @@ export default class {
     if (searchIndex === 0) return this._heap[0];
     else {
       if (searchIndex < 0) searchIndex = this.length + searchIndex;
-      return this.find(function(element, index) {
-        return index === searchIndex;
-      });
+      return this.find((el, i) => i === searchIndex);
     }
   }
 
@@ -272,9 +264,7 @@ export default class {
     if (begin < 0) begin = this.length + begin;
     if (end < 0) end = this.length + end;
 
-    return this.filter(function(element, index) {
-      return index >= begin && index < end;
-    });
+    return this.filter((el, i) => i >= begin && i < end);
   }
 
   // Tests whether some element in the priority queue passes the test 

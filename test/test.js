@@ -5,9 +5,9 @@ import { expect } from 'chai';
 // priority queue into the callback function. Takes as arguments the name of the
 // method and a return value for the callback function.
 function itShouldPassTheOriginalPriorityQueueToTheCallbackFunction(methodName, returnValue) {
-  it('should pass the original priority queue to the callback function', function() {
+  it('should pass the original priority queue to the callback function', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-    pq[methodName](function(element, index, pqReference) {
+    pq[methodName]((element, index, pqReference) => {
       expect(pqReference).to.equal(pq);
       return returnValue;
     });
@@ -18,7 +18,7 @@ function itShouldPassTheOriginalPriorityQueueToTheCallbackFunction(methodName, r
 // callback function correctly. Takes as arguments the name of the method and
 // a return value for the callback function.
 function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
-  it(`should set the context of the callback to the same value that Array.prototype.${methodName} would by default`, function() {
+  it(`should set the context of the callback to the same value that Array.prototype.${methodName} would by default`, () => {
     let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     let context;
     pq[methodName](function() {
@@ -33,7 +33,7 @@ function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
 
   });
 
-  it('should set the context of the callback to the given argument', function() {
+  it('should set the context of the callback to the given argument', () => {
     let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     let context = {};
     pq[methodName](function() {
@@ -46,7 +46,7 @@ function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
 }
 
 function itShouldRespectSpecies(methodName, ...methodArguments) {
-  it('should return a priority queue of the same type by default', function() {
+  it('should return a priority queue of the same type by default', () => {
     class PriorityQueueChild extends PriorityQueue {};
 
     expect(
@@ -54,7 +54,7 @@ function itShouldRespectSpecies(methodName, ...methodArguments) {
     ).to.be.instanceOf(PriorityQueueChild);
   });
 
-  it('should return a priority queue of the type specified by Symbol.species', function() {
+  it('should return a priority queue of the type specified by Symbol.species', () => {
     class PriorityQueueChild1 extends PriorityQueue {};
     class PriorityQueueChild2 extends PriorityQueue {
       static get [Symbol.species]() { 
@@ -70,12 +70,12 @@ function itShouldRespectSpecies(methodName, ...methodArguments) {
 
 }
 
-describe('constructor', function() {
-  it('should create an empty priority queue constructor given no arguments' , function() {
+describe('constructor', () => {
+  it('should create an empty priority queue constructor given no arguments' , () => {
     expect((new PriorityQueue()).length).to.equal(0);
   });
 
-  it('should create a correctly sorted priority queue given an unsorted array', function() {
+  it('should create a correctly sorted priority queue given an unsorted array', () => {
     let pq = new PriorityQueue([2, 9, 3, 8, 4, 5]);
     expect([
       pq.dequeue(),
@@ -87,8 +87,8 @@ describe('constructor', function() {
     ]).to.deep.equal([2, 3, 4, 5, 8, 9]);
   });
 
-  it('should create a correctly sorted priority queue given an unsorted array and an alternative comparator', function() {
-    let pq = new PriorityQueue([2, 9, 3, 8, 3, 5], function(a, b) {
+  it('should create a correctly sorted priority queue given an unsorted array and an alternative comparator', () => {
+    let pq = new PriorityQueue([2, 9, 3, 8, 3, 5], (a, b) => {
       if (a > b) return -1;
       else if (a < b) return 1;
       else return 0;  
@@ -104,8 +104,8 @@ describe('constructor', function() {
     ]).to.deep.equal([9, 8, 5, 3, 3, 2]);
   });
 
-  it('should create a priority queue which will sort correctly given an empty array and an alternative comparator', function() {
-    let pq = new PriorityQueue([], function(a, b) {
+  it('should create a priority queue which will sort correctly given an empty array and an alternative comparator', () => {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a > b) return -1;
       else if (a < b) return 1;
       else return 0;  
@@ -130,12 +130,12 @@ describe('constructor', function() {
 
 });
 
-describe('iteratable protocol', function() {
-  it('should output the elements of the priority queue exactly, not copies, in the correct order', function() {
+describe('iteratable protocol', () => {
+  it('should output the elements of the priority queue exactly, not copies, in the correct order', () => {
     let pq = new PriorityQueue([
       { value: 5 },
       { value: 4 },
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -149,7 +149,7 @@ describe('iteratable protocol', function() {
     }
   });
 
-  it('should not mutate the priority queue', function() {
+  it('should not mutate the priority queue', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
     
     let arrayFromPQ = Array.from(pq);
@@ -166,8 +166,8 @@ describe('iteratable protocol', function() {
 
 });
 
-describe('#clear', function() {
-  it('should remove all elements from a priority queue', function() {
+describe('#clear', () => {
+  it('should remove all elements from a priority queue', () => {
     let pq = new PriorityQueue();
 
     pq.enqueue(0);
@@ -180,7 +180,7 @@ describe('#clear', function() {
 
   });
 
-  it('should remove all elements from a priority queue with initial elements', function() {
+  it('should remove all elements from a priority queue with initial elements', () => {
     let pq = new PriorityQueue([0, 1, 2]);
     pq.enqueue(3);
 
@@ -191,7 +191,7 @@ describe('#clear', function() {
 
   });
 
-  it('should remove all elements from a priority queue with initial elements in its initial state', function() {
+  it('should remove all elements from a priority queue with initial elements in its initial state', () => {
     let pq = new PriorityQueue([0, 1, 2]);
 
     pq.clear();
@@ -200,7 +200,7 @@ describe('#clear', function() {
     expect(pq.dequeue()).to.be.undefined;
   });
 
-  it('should not materially change an empty priority queue', function() {
+  it('should not materially change an empty priority queue', () => {
     let pq = new PriorityQueue([1]);
     pq.dequeue();
 
@@ -210,7 +210,7 @@ describe('#clear', function() {
     expect(pq.dequeue()).to.be.undefined;
   });
 
-  it('should not materially change an empty priority queue in its initial state', function() {
+  it('should not materially change an empty priority queue in its initial state', () => {
     let pq = new PriorityQueue();
 
     pq.clear();
@@ -219,17 +219,17 @@ describe('#clear', function() {
   });
 });
 
-describe('#clone', function() {
-  it('should not return a reference to the same priority queue', function() {
+describe('#clone', () => {
+  it('should not return a reference to the same priority queue', () => {
     let pq = new PriorityQueue([1, 2, 3]);
     expect(pq.clone()).not.to.equal(pq);
   });
 
-  it('should return a priority queue that references the same elements in the same order', function() {
+  it('should return a priority queue that references the same elements in the same order', () => {
    let pq = new PriorityQueue([
       { value: 5 },
       { value: 4 },
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -245,7 +245,7 @@ describe('#clone', function() {
     }
   });
 
-  it('should return a priority queue which can be mutated without affecting the original priority queue', function() {
+  it('should return a priority queue which can be mutated without affecting the original priority queue', () => {
     let pq = new PriorityQueue([3, 2, 1]);
     let clone = pq.clone();
 
@@ -262,22 +262,22 @@ describe('#clone', function() {
   itShouldRespectSpecies('clone'); 
 });
 
-describe('#concat', function() {
-  it("should return an Array", function() {
+describe('#concat', () => {
+  it("should return an Array", () => {
     expect((new PriorityQueue([5, 3, 1])).concat()).to.be.an('array');
   });
 
-  it("should return a concatenation of an Array of the priority queue's sorted elements with the arguments", function() {
+  it("should return a concatenation of an Array of the priority queue's sorted elements with the arguments", () => {
     expect(
       (new PriorityQueue([5, 3, 1])).concat([1, 2, 3], 7, [6])
     ).to.deep.equal([1, 3, 5].concat([1, 2, 3], 7, [6]));
   });
 });
 
-describe('#dequeue', function() {
-  it('should return exactly the element at the head for a priority queue with initial elements', function() {
+describe('#dequeue', () => {
+  it('should return exactly the element at the head for a priority queue with initial elements', () => {
     let head = { value: 1 };
-    let pq = new PriorityQueue([], function(a, b) {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -289,13 +289,13 @@ describe('#dequeue', function() {
     expect(pq.dequeue()).to.equal(head);
   });
   
-  it('should return exactly the element at the head for a priority queue', function() {
+  it('should return exactly the element at the head for a priority queue', () => {
     let head = { value: 1 };
     let pq = new PriorityQueue([
       { value: 3 },
       { value: 2 },
       head,
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -304,7 +304,7 @@ describe('#dequeue', function() {
     expect(pq.dequeue()).to.equal(head);
   });
 
-  it('should return undefined if called on an empty priority queue', function() {
+  it('should return undefined if called on an empty priority queue', () => {
     let pq = new PriorityQueue();
     pq.enqueue(1);
     pq.dequeue();
@@ -312,14 +312,14 @@ describe('#dequeue', function() {
     expect(pq.dequeue()).to.be.undefined;
   });
 
-  it('should return undefined if called on an empty priority queue in its initial state', function() {
+  it('should return undefined if called on an empty priority queue in its initial state', () => {
     let pq = new PriorityQueue();
     expect(pq.dequeue()).to.be.undefined;
   });
 });
 
-describe('#enqueue', function() {
-  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the heap becomes full', function() {
+describe('#enqueue', () => {
+  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4]);
     pq.enqueue(-2);
     expect([
@@ -333,7 +333,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4, 5]);
     pq.enqueue(-2);
     expect([
@@ -348,7 +348,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is less than any other element, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4, 5, 6]);
     pq.enqueue(-2);
     expect([
@@ -364,7 +364,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5, 6]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the heap becomes full', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3]);
     pq.enqueue(4);
     expect([
@@ -378,7 +378,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3, 4]);
     pq.enqueue(5);
     expect([
@@ -393,7 +393,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is greater than any other element, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3, 4, 5]);
     pq.enqueue(6);
     expect([
@@ -409,7 +409,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5, 6]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the heap becomes full', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4]);
     pq.enqueue(-1);
     expect([
@@ -423,7 +423,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-1, -1, 0, 1, 2, 3, 4]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4, 5]);
     pq.enqueue(-1);
     expect([
@@ -438,7 +438,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-1, -1, 0, 1, 2, 3, 4, 5]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the head element, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-1, 0, 1, 2, 3, 4, 5, 6]);
     pq.enqueue(-1);
     expect([
@@ -454,7 +454,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-1, -1, 0, 1, 2, 3, 4, 5, 6]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the heap becomes full', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3]);
     pq.enqueue(3);
     expect([
@@ -468,7 +468,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 3]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3, 4]);
     pq.enqueue(4);
     expect([
@@ -483,7 +483,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 4]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element is equal to the tail element, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 2, 3, 4, 5]);
     pq.enqueue(5);
     expect([
@@ -499,7 +499,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5, 5]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element which belongs in the middle of the queue, such that the heap becomes full', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element which belongs in the middle of the queue, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-2, -1, 0, 2, 3, 4]);
     pq.enqueue(1);
     expect([
@@ -513,7 +513,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element that belongs in the middle of the queue, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element that belongs in the middle of the queue, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 3, 4, 5]);
     pq.enqueue(2);
     expect([
@@ -528,7 +528,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element that belongs in the middle of the queue, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element that belongs in the middle of the queue, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 3, 4, 5, 6]);
     pq.enqueue(2);
     expect([
@@ -544,7 +544,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 2, 3, 4, 5, 6]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the heap becomes full', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the heap becomes full', () => {
     let pq = new PriorityQueue([-2, -1, 1, 2, 3, 4]);
     pq.enqueue(1);
     expect([
@@ -558,7 +558,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 1, 1, 2, 3, 4]);
   });
 
-  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the tail element becomes a first child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the tail element becomes a first child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 3, 4, 5]);
     pq.enqueue(1);
     expect([
@@ -573,7 +573,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 1, 3, 4, 5]);
   });
   
-  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the tail element becomes a second child in the heap', function() {
+  it('should result in a correctly sorted priority queue when the enqueued element that equals an element in the middle of the queue, such that the tail element becomes a second child in the heap', () => {
     let pq = new PriorityQueue([-2, -1, 0, 1, 3, 4, 5, 6]);
     pq.enqueue(1);
     expect([
@@ -589,7 +589,7 @@ describe('#enqueue', function() {
     ]).to.deep.equal([-2, -1, 0, 1, 1, 3, 4, 5, 6]);
   });
   
-  it('should take multiple elements and enqueue them to the right positions', function() {
+  it('should take multiple elements and enqueue them to the right positions', () => {
     let pq = new PriorityQueue([5, 3, 1]);
     pq.enqueue(2, 6, 0);
     
@@ -604,15 +604,15 @@ describe('#enqueue', function() {
     ]).to.deep.equal([0, 1, 2, 3, 5, 6]);
   });
 
-  it('should return the resultant length of the priority queue', function() {
+  it('should return the resultant length of the priority queue', () => {
     let pq = new PriorityQueue([1, 2, 3]);
     expect(pq.enqueue(0)).to.equal(4);
   });
 
 });
 
-describe('#entries', function() {
-  it('should return an iterator', function() {
+describe('#entries', () => {
+  it('should return an iterator', () => {
     let pq = new PriorityQueue([0, 1, 2]);
 
     expect(pq.entries()).to.respondTo('next');
@@ -625,11 +625,11 @@ describe('#entries', function() {
 
   });
 
-  it('should return an iterator which outputs key-value pairs of the elements of the priority queue, where the values are the elements exactly, not copies, in the correct order', function() {
+  it('should return an iterator which outputs key-value pairs of the elements of the priority queue, where the values are the elements exactly, not copies, in the correct order', () => {
     let pq = new PriorityQueue([
       { value: 5 },
       { value: 4 },
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -645,7 +645,7 @@ describe('#entries', function() {
     }
   });
 
-  it('should return an iterator that does not mutate the priority queue', function() {
+  it('should return an iterator that does not mutate the priority queue', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
     
     let arrayFromPQ = Array.from(pq.entries());
@@ -660,7 +660,7 @@ describe('#entries', function() {
     ]).to.deep.equal([1, 2, 3, 4, 5]);
   });
 
-  it('should return iterators which are independent of one another', function() {
+  it('should return iterators which are independent of one another', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
 
     let it0 = pq.entries();
@@ -684,11 +684,9 @@ describe('#entries', function() {
 
 });
 
-describe('#every', function() {
-  it('should return what Array.prototype.every would when none of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+describe('#every', () => {
+  it('should return what Array.prototype.every would when none of the elements satisfy the predicate', () => {
+    let predicate = element => !(element % 3);
 
     expect(
       (new PriorityQueue([1, 2, 4, 5])).every(predicate)
@@ -697,10 +695,8 @@ describe('#every', function() {
     );
   });
   
-  it('should return what Array.prototype.every would when some of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+  it('should return what Array.prototype.every would when some of the elements satisfy the predicate', () => {
+    let predicate = element => !(element % 3);
 
     expect(
       (new PriorityQueue([1, 2, 3, 4, 5, 6])).every(predicate)
@@ -709,10 +705,8 @@ describe('#every', function() {
     );
   });
   
-  it('should return what Array.prototype.every would when all of the elements satisfy the predicate', function() {
-    function predicate() {
-      return true;
-    }
+  it('should return what Array.prototype.every would when all of the elements satisfy the predicate', () => {
+    let predicate = () => true;
 
     expect(
       (new PriorityQueue([1, 2, 3, 4, 5, 6])).every(predicate)
@@ -721,16 +715,16 @@ describe('#every', function() {
     );
   });
 
-  it('should iterate through the elements the way Array.prototype.every would', function() {
+  it('should iterate through the elements the way Array.prototype.every would', () => {
     let pqIndices = [];
-    (new PriorityQueue([5, 6, 7, 8, 9])).every(function(element, index) {
+    (new PriorityQueue([5, 6, 7, 8, 9])).every((element, index) => {
       pqIndices.push(index);
       return element < 7;
     });
 
     let arrIndices = [];
 
-    [5, 6, 7, 8, 9].every(function(element, index) {
+    [5, 6, 7, 8, 9].every((element, index) => {
       arrIndices.push(index);
       return element < 7;
     });
@@ -739,11 +733,11 @@ describe('#every', function() {
 
   });
 
-  it('should return what Array.prototype.every would for an empty Array if the priority queue is empty', function() {
+  it('should return what Array.prototype.every would for an empty Array if the priority queue is empty', () => {
     expect(
-      (new PriorityQueue()).every(function() { return false; })
+      (new PriorityQueue()).every(() => { return false; })
     ).to.equal(
-      [].every(function() { return false; })
+      [].every(() => { return false; })
     );
   });
 
@@ -752,27 +746,27 @@ describe('#every', function() {
 
 });
 
-describe('#forEach', function() {
-  it('should call the callback on each element of the priority queue in order', function() {
+describe('#forEach', () => {
+  it('should call the callback on each element of the priority queue in order', () => {
     let elements = [];
 
-    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element) {
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach((element) => {
       elements.push(element);
     });
 
     expect(elements).to.deep.equal([1, 2, 3, 4, 5]);
   });
   
-  it('should not call the callback if the priority queue is empty', function() {
+  it('should not call the callback if the priority queue is empty', () => {
     let numberOfCalls = 0;
-    (new PriorityQueue()).forEach(function() { ++numberOfCalls; });
+    (new PriorityQueue()).forEach(() => { ++numberOfCalls; });
     expect(numberOfCalls).to.equal(0);
   });
 
-  it('should only call the callback function on the elements present in the priority queue at the time of call, even if the callback function adds elements', function() {
+  it('should only call the callback function on the elements present in the priority queue at the time of call, even if the callback function adds elements', () => {
     let elements = [];
 
-    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element, index, pq) {
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach((element, index, pq) => {
       pq.enqueue(10);
       elements.push(element);
     });
@@ -780,10 +774,10 @@ describe('#forEach', function() {
     expect(elements).to.deep.equal([1, 2, 3, 4, 5]);
   });
 
-  it('should call the callback function on all the elements present in the priority queue at the time of call, even if the callback function adds elements', function() {
+  it('should call the callback function on all the elements present in the priority queue at the time of call, even if the callback function adds elements', () => {
     let elements = [];
 
-    (new PriorityQueue([5, 3, 4, 1, 2])).forEach(function(element, index, pq) {
+    (new PriorityQueue([5, 3, 4, 1, 2])).forEach((element, index, pq) => {
       pq.dequeue();
       elements.push(element);
     });
@@ -796,10 +790,10 @@ describe('#forEach', function() {
 });
 
 {
-  let describeIncludesOrIndexOf = function(methodName) {
+  let describeIncludesOrIndexOf = (methodName) => {
     
-    describe(`#${methodName}`, function() {
-      it(`should return what an empty Array's #${methodName} would return`, function() {
+    describe(`#${methodName}`, () => {
+      it(`should return what an empty Array's #${methodName} would return`, () => {
         expect(
           (new PriorityQueue([]))[methodName](3)
         ).to.equal(
@@ -807,7 +801,7 @@ describe('#forEach', function() {
         );
       });
 
-      it(`should return what an empty Array's #${methodName} would return, with fromIndex`, function() {
+      it(`should return what an empty Array's #${methodName} would return, with fromIndex`, () => {
         expect(
           (new PriorityQueue([]))[methodName](3, 2)
         ).to.equal(
@@ -815,7 +809,7 @@ describe('#forEach', function() {
         );
       });
      
-      it(`should return what an empty Array's #${methodName} would return, with negative fromIndex`, function() {
+      it(`should return what an empty Array's #${methodName} would return, with negative fromIndex`, () => {
         expect(
           (new PriorityQueue([]))[methodName](3, -2)
         ).to.equal(
@@ -823,7 +817,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is present`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 3, 2]))[methodName](3)
         ).to.equal(
@@ -831,7 +825,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is not present`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is not present`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](1)
         ).to.equal(
@@ -839,7 +833,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is present, 0 fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present, 0 fromIndex`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 3, 2]))[methodName](3, 0)
         ).to.equal(
@@ -847,7 +841,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is not present, 0 fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is not present, 0 fromIndex`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](1, 0)
         ).to.equal(
@@ -855,7 +849,7 @@ describe('#forEach', function() {
         );
       });
 
-      it(`should return what Array's #${methodName} would return where the search element is present in search segment`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present in search segment`, () => {
         expect(
           (new PriorityQueue([5, 4, 4, 3, 2]))[methodName](4, 1)
         ).to.equal(
@@ -863,7 +857,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](2, 3)
         ).to.equal(
@@ -871,7 +865,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](1, 1)
         ).to.equal(
@@ -879,7 +873,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is present in search segment, negative fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present in search segment, negative fromIndex`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](4, -2)
         ).to.equal(
@@ -887,7 +881,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment, negative fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is present but not in search segment, negative fromIndex`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](2, -1)
         ).to.equal(
@@ -895,7 +889,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue, negative fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is not present in search segment or rest of priority queue, negative fromIndex`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](1, -1)
         ).to.equal(
@@ -903,7 +897,7 @@ describe('#forEach', function() {
         );
       });
 
-      it(`should return what Array's #${methodName} would return where the search element is NaN and is present`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2, NaN]))[methodName](NaN)
         ).to.equal(
@@ -911,7 +905,7 @@ describe('#forEach', function() {
         );
       });
       
-      it(`should return what Array's #${methodName} would return where the search element is NaN and is not present`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is not present`, () => {
         expect(
           (new PriorityQueue([5, 4, 3, 2]))[methodName](NaN)
         ).to.equal(
@@ -919,9 +913,9 @@ describe('#forEach', function() {
         );
       }); 
       
-      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment`, () => {
         expect(
-          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+          (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
             if (Number.isNaN(a)) return 1;
             else if (Number.isNaN(b)) return -1;
             else if (a > b) return 1;
@@ -933,9 +927,9 @@ describe('#forEach', function() {
         );
       }); 
       
-      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment, negative fromIndex`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present in search segment, negative fromIndex`, () => {
         expect(
-          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+          (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
             if (Number.isNaN(a)) return -1;
             else if (Number.isNaN(b)) return 1;
             else if (a > b) return 1;
@@ -947,9 +941,9 @@ describe('#forEach', function() {
         );
       });
 
-      it(`should return what Array's #${methodName} would return where the search element is NaN and is present but not in search segment`, function() {
+      it(`should return what Array's #${methodName} would return where the search element is NaN and is present but not in search segment`, () => {
         expect(
-          (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+          (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
             if (Number.isNaN(a)) return -1;
             else if (Number.isNaN(b)) return 1;
             else if (a > b) return 1;
@@ -967,11 +961,9 @@ describe('#forEach', function() {
   describeIncludesOrIndexOf('indexOf');
 }
 
-describe('#filter', function() {
-  it('should return what Array.prototype.filter would when none of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+describe('#filter', () => {
+  it('should return what Array.prototype.filter would when none of the elements satisfy the predicate', () => {
+    let predicate = element => !(element % 3);
 
     expect(
       Array.from((new PriorityQueue([1, 2, 4, 5])).filter(predicate))
@@ -980,10 +972,8 @@ describe('#filter', function() {
     );
   });
   
-  it('should return what Array.prototype.filter would when some of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+  it('should return what Array.prototype.filter would when some of the elements satisfy the predicate', () => {
+    let predicate = element => !(element % 3);
 
     expect(
       Array.from((new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(predicate))
@@ -992,10 +982,8 @@ describe('#filter', function() {
     );
   });
   
-  it('should return what Array.prototype.filter would when all of the elements satisfy the predicate', function() {
-    function predicate() {
-      return true;
-    }
+  it('should return what Array.prototype.filter would when all of the elements satisfy the predicate', () => {
+    let predicate = () => true;
 
     expect(
       Array.from((new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(predicate))
@@ -1004,20 +992,20 @@ describe('#filter', function() {
     );
   });
   
-  it('should return empty priority queue if it is empty', function() {
+  it('should return empty priority queue if it is empty', () => {
     expect(
-      (new PriorityQueue()).filter(function() { return true; }).length
+      (new PriorityQueue()).filter(() => { return true; }).length
     ).to.equal(0);
   });
   
-  it('should iterate through the elements the way Array.prototype.filter would', function() {
+  it('should iterate through the elements the way Array.prototype.filter would', () => {
     let pqEntries = [];
-    (new PriorityQueue([1, 2, 3, 4, 5, 6])).filter(function(element, i) {
+    (new PriorityQueue([1, 2, 3, 4, 5, 6])).filter((element, i) => {
       pqEntries.push([element, i]);
     });
 
     let arrEntries = [];
-    [1, 2, 3, 4, 5, 6].filter(function(element, i) {
+    [1, 2, 3, 4, 5, 6].filter((element, i) => {
       arrEntries.push([element, i]);
     });
 
@@ -1026,26 +1014,24 @@ describe('#filter', function() {
 
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('filter', true);
   itShouldSetTheContextOfTheCallbackCorrectly('filter', true);
-  itShouldRespectSpecies('filter', function() { return true; });
+  itShouldRespectSpecies('filter', () => { return true; });
 });
 
-describe('#join', function() {
-  it('should join the elements of the priority queue in sorted order', function() {
+describe('#join', () => {
+  it('should join the elements of the priority queue in sorted order', () => {
     expect((new PriorityQueue(['z', 'y', 'x'])).join()).to.equal(['x', 'y', 'z'].join());
   });
   
-  it('should join the elements of the priority queue in sorted order, with separator', function() {
+  it('should join the elements of the priority queue in sorted order, with separator', () => {
     expect((new PriorityQueue(['z', 'y', 'x'])).join('::')).to.equal(['x', 'y', 'z'].join('::'));
   });
 });
 
 { 
-  let describeFindMethod = function(methodName) {
-    describe(`#${methodName}`, function() {
-      it('should find the same element that Array would find, the elements being iterated over in sorted order', function() {
-        function predicate(element) {
-          return element === 'x' || element === 'y';
-        }
+  let describeFindMethod = (methodName) => {
+    describe(`#${methodName}`, () => {
+      it('should find the same element that Array would find, the elements being iterated over in sorted order', () => {
+        let predicate = element => element === 'x' || element === 'y';
 
         let pq = new PriorityQueue(
           [ 
@@ -1053,7 +1039,7 @@ describe('#join', function() {
             { value: 'y' }, 
             { value: 'x' }, 
             { value: 'w' }
-          ], function(a, b) {
+          ], (a, b) => {
             if (a.value > b.value) return 1;
             else if (a.value < b.value) return -1;
             else return 0;
@@ -1067,10 +1053,8 @@ describe('#join', function() {
         );
       });
       
-      it(`should return what Array.prototype.${methodName} would return if the element is not found`, function() {
-        function predicate(element) {
-          return element === 'q'
-        }
+      it(`should return what Array.prototype.${methodName} would return if the element is not found`, () => {
+        let predicate = element =>element === 'q';
 
         let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
 
@@ -1081,10 +1065,8 @@ describe('#join', function() {
         );
       });
       
-      it(`should return what Array.prototype.${methodName} for an empty array if the priority queue is empty`, function() {
-        function predicate(element) {
-          return element === 'q'
-        }
+      it(`should return what Array.prototype.${methodName} for an empty array if the priority queue is empty`, () => {
+        let predicate = element => element === 'q';
 
         let pq = new PriorityQueue();
 
@@ -1095,12 +1077,12 @@ describe('#join', function() {
         );
       });     
      
-      it(`should call the callback function passing an index the way that Array.prototype.${methodName} would`, function() {
+      it(`should call the callback function passing an index the way that Array.prototype.${methodName} would`, () => {
         let indices = [];
-        function predicate(element, index) {
+        let predicate = (element, index) => {
           indices.push(index);
           return element === 'y';
-        }
+        };
 
         let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
         pq[methodName](predicate);
@@ -1113,40 +1095,40 @@ describe('#join', function() {
         expect(pqIndices).to.deep.equal(arrIndices);
       });
 
-      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
+      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', () => {
         let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
         let elements = [];
-        pq[methodName](function(element) {
+        pq[methodName]((element) => {
           elements.push(element);
           pq.dequeue();
         });
 
-        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+        expect(elements.reduce((accumulator, element) => { return accumulator + element; }, 0)).to.equal(55);
 
       });
       
-      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', () => {
         let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
         let elements = [];
-        pq[methodName](function(element, index) {
+        pq[methodName]((element, index) => {
           elements.push(element);
           pq.enqueue(index + 1);
           pq.enqueue(index + 2);
         });
 
-        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+        expect(elements.reduce((accumulator, element) => { return accumulator + element; }, 0)).to.equal(55);
 
       });
 
-      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', () => {
         let pq = new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
         let elements = [];
-        pq[methodName](function(element, index) {
+        pq[methodName]((element, index) => {
           elements.push(element);
           pq.enqueue(pq.dequeue() + 1);
         });
 
-        expect(elements.reduce(function(accumulator, element) { return accumulator + element; }, 0)).to.equal(55);
+        expect(elements.reduce((accumulator, element) => { return accumulator + element; }, 0)).to.equal(55);
       
       });
 
@@ -1159,8 +1141,8 @@ describe('#join', function() {
   describeFindMethod('findIndex');
 }
 
-describe('#lastIndexOf', function() {
-  it("should return what an empty Array's #lastIndexOf would return", function() {
+describe('#lastIndexOf', () => {
+  it("should return what an empty Array's #lastIndexOf would return", () => {
     expect(
       (new PriorityQueue([])).lastIndexOf(3)
     ).to.equal(
@@ -1168,7 +1150,7 @@ describe('#lastIndexOf', function() {
     );
   });
 
-  it("should return what an empty Array's #lastIndexOf would return, with fromIndex", function() {
+  it("should return what an empty Array's #lastIndexOf would return, with fromIndex", () => {
     expect(
       (new PriorityQueue([])).lastIndexOf(3, 2)
     ).to.equal(
@@ -1176,7 +1158,7 @@ describe('#lastIndexOf', function() {
     );
   });
  
-  it("should return what an empty Array's #lastIndexOf would return, with negative fromIndex", function() {
+  it("should return what an empty Array's #lastIndexOf would return, with negative fromIndex", () => {
     expect(
       (new PriorityQueue([])).lastIndexOf(3, -2)
     ).to.equal(
@@ -1184,7 +1166,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is present", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 3, 2])).lastIndexOf(3)
     ).to.equal(
@@ -1192,7 +1174,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is not present", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is not present", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1)
     ).to.equal(
@@ -1200,7 +1182,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is present, fromIndex last element", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present, fromIndex last element", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(3, 3)
     ).to.equal(
@@ -1208,7 +1190,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is not present, fromIndex last element", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is not present, fromIndex last element", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, 3)
     ).to.equal(
@@ -1216,7 +1198,7 @@ describe('#lastIndexOf', function() {
     );
   });
 
-  it("should return what Array's #lastIndexOf would return where the search element is present in search segment", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present in search segment", () => {
     expect(
       (new PriorityQueue([5, 4, 4, 3, 2])).lastIndexOf(4, 3)
     ).to.equal(
@@ -1224,7 +1206,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(4, 1)
     ).to.equal(
@@ -1232,7 +1214,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, 2)
     ).to.equal(
@@ -1240,7 +1222,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is present in search segment, negative fromIndex", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present in search segment, negative fromIndex", () => {
     expect(
       (new PriorityQueue([6, 5, 4, 4, 3, 2])).lastIndexOf(4, -2)
     ).to.equal(
@@ -1248,7 +1230,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment, negative fromIndex", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is present but not in search segment, negative fromIndex", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(5, -2)
     ).to.equal(
@@ -1256,7 +1238,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue, negative fromIndex", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is not present in search segment or rest of priority queue, negative fromIndex", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(1, -2)
     ).to.equal(
@@ -1264,7 +1246,7 @@ describe('#lastIndexOf', function() {
     );
   });
 
-  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2, NaN])).lastIndexOf(NaN)
     ).to.equal(
@@ -1272,7 +1254,7 @@ describe('#lastIndexOf', function() {
     );
   });
   
-  it("should return what Array's #lastIndexOf would return where the search element is NaN and is not present", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is not present", () => {
     expect(
       (new PriorityQueue([5, 4, 3, 2])).lastIndexOf(NaN)
     ).to.equal(
@@ -1280,9 +1262,9 @@ describe('#lastIndexOf', function() {
     );
   }); 
   
-  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment", () => {
     expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+      (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
         if (Number.isNaN(a)) return 1;
         else if (Number.isNaN(b)) return -1;
         else if (a > b) return 1;
@@ -1294,9 +1276,9 @@ describe('#lastIndexOf', function() {
     );
   }); 
   
-  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment, negative fromIndex", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present in search segment, negative fromIndex", () => {
     expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+      (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
         if (Number.isNaN(a)) return -1;
         else if (Number.isNaN(b)) return 1;
         else if (a > b) return 1;
@@ -1308,9 +1290,9 @@ describe('#lastIndexOf', function() {
     );
   });
 
-  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present but not in search segment", function() {
+  it("should return what Array's #lastIndexOf would return where the search element is NaN and is present but not in search segment", () => {
     expect(
-      (new PriorityQueue([5, 4, 3, 2, NaN], function(a, b) {
+      (new PriorityQueue([5, 4, 3, 2, NaN], (a, b) => {
         if (Number.isNaN(a)) return 1;
         else if (Number.isNaN(b)) return -11;
         else if (a > b) return 1;
@@ -1323,8 +1305,8 @@ describe('#lastIndexOf', function() {
   }); 
 });
 
-describe('#map', function() {
-  it('should return an Array', function() {
+describe('#map', () => {
+  it('should return an Array', () => {
     expect((new PriorityQueue(
       [
         5, 
@@ -1333,23 +1315,23 @@ describe('#map', function() {
         2, 
         1,
       ]
-    )).map(function(element) { return element; })).to.be.an('array');
+    )).map((element) => { return element; })).to.be.an('array');
   });
 
-  it('should return what Array.prototype.map would', function() {
+  it('should return what Array.prototype.map would', () => {
     let pq = new PriorityQueue([
       { value: 5 },
       { value: 4 },
       { value: 3 },
       { value: 2 },
       { value: 1 },
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
     });
 
-    let callback = function(element) {
+    let callback = (element) => {
       return element.value;
     };
 
@@ -1362,27 +1344,27 @@ describe('#map', function() {
     ].map(callback));
   });
 
-  it('should return what Array.prototype.map would when the priority queue is empty', function() {
+  it('should return what Array.prototype.map would when the priority queue is empty', () => {
     let pq = new PriorityQueue();
 
-    let callback = function(element) {
+    let callback = (element) => {
       return { value: element };
     };
 
     expect(pq.map(callback)).to.deep.equal([].map(callback));
   });
 
-  it('should disregard elements which are enqueued in the callback', function() {
+  it('should disregard elements which are enqueued in the callback', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-    expect(pq.map(function(element) {
+    expect(pq.map((element) => {
       pq.enqueue(10);
       return element;
     })).to.deep.equal([1, 2, 3, 4, 5]);
   });
 
-  it('should map elements even if they are dequeued in the callback', function() {
+  it('should map elements even if they are dequeued in the callback', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-    expect(pq.map(function(element) {
+    expect(pq.map((element) => {
       pq.dequeue();
       return element;
     })).to.deep.equal([1, 2, 3, 4, 5]);
@@ -1392,25 +1374,25 @@ describe('#map', function() {
   itShouldSetTheContextOfTheCallbackCorrectly('map');
 });
 
-describe('#length', function() {
-  it('should be correct for a zero-length priority queue', function() {
+describe('#length', () => {
+  it('should be correct for a zero-length priority queue', () => {
     expect((new PriorityQueue()).length).to.equal(0);
   });
 
-  it('should increment correctly from a zero-length priority queue', function() {
+  it('should increment correctly from a zero-length priority queue', () => {
     let pq = new PriorityQueue();
     pq.enqueue(2);
     expect(pq.length).to.equal(1);
   });
 
-  it('should increment correctly from non-zero-length priority queue more than once', function() {
+  it('should increment correctly from non-zero-length priority queue more than once', () => {
     let pq = new PriorityQueue();
     pq.enqueue(2);
     pq.enqueue(1);
     expect(pq.length).to.equal(2);
   });
 
-  it('should increment correctly if duplicate element is enqueued', function() {
+  it('should increment correctly if duplicate element is enqueued', () => {
     let pq = new PriorityQueue();
     pq.enqueue(2);
     pq.enqueue(1);
@@ -1420,17 +1402,17 @@ describe('#length', function() {
     expect(pq.length).to.equal(5);
   });
 
-  it('should be correct for a priority queue with initial elements', function() {
+  it('should be correct for a priority queue with initial elements', () => {
     expect((new PriorityQueue([3, 3, 1])).length).to.equal(3);
   });
 
-  it('should increment correctly from priority queue with inital elements', function() {
+  it('should increment correctly from priority queue with inital elements', () => {
     let pq = new PriorityQueue([3, 3, 1]);
     pq.enqueue(4);
     expect(pq.length).to.equal(4);
   });
  
-  it('should not decrement to less than zero', function() {
+  it('should not decrement to less than zero', () => {
     let pq = new PriorityQueue();
     pq.enqueue(2);
     pq.enqueue(3);
@@ -1440,13 +1422,13 @@ describe('#length', function() {
     expect(pq.length).to.equal(0);
   }); 
   
-  it('should not decrement to less than zero on a zero-length priority queue' , function() {
+  it('should not decrement to less than zero on a zero-length priority queue' , () => {
     let pq = new PriorityQueue();
     pq.dequeue();
     expect(pq.length).to.equal(0);
   });
 
-  it('should not decrement to less than zero on a priority queue with initial elements', function() {
+  it('should not decrement to less than zero on a priority queue with initial elements', () => {
     let pq = new PriorityQueue([3, 2, 1]);
     pq.dequeue();
     pq.dequeue();
@@ -1455,7 +1437,7 @@ describe('#length', function() {
     expect(pq.length).to.equal(0);
   });
 
-  it('should decrement correctly to a non-zero value', function() {
+  it('should decrement correctly to a non-zero value', () => {
     let pq = new PriorityQueue();
     pq.enqueue(2);
     pq.enqueue(1);
@@ -1466,24 +1448,24 @@ describe('#length', function() {
     expect(pq.length).to.equal(4);
   });
 
-  it('should decrement correctly for a priority queue with initial elements', function() {
+  it('should decrement correctly for a priority queue with initial elements', () => {
     let pq = new PriorityQueue([3, 3, 1]);
     pq.dequeue();
     expect(pq.length).to.equal(2);
   });
 
-  it('should increment correctly when removing duplicate element', function() {
+  it('should increment correctly when removing duplicate element', () => {
     let pq = new PriorityQueue([1, 1, 1, 2, 3]);
     pq.dequeue();
     expect(pq.length).to.equal(4);
   });
 });
 
-describe('#peak', function() {
+describe('#peak', () => {
 
-  it('should return exactly the head element for a priority queue', function() {
+  it('should return exactly the head element for a priority queue', () => {
 
-    let pq = new PriorityQueue([], function(a, b) {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1498,14 +1480,14 @@ describe('#peak', function() {
     expect(pq.peek()).to.equal(head); 
   });
 
-  it('should return exactly the head element for a priority queue with initial elements', function() {
+  it('should return exactly the head element for a priority queue with initial elements', () => {
 
     let head = { value: 1 }; 
     let pq = new PriorityQueue([
       { value: 2 },
       { value: 3 },
       head,
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1514,7 +1496,7 @@ describe('#peak', function() {
     expect(pq.peek()).to.equal(head); 
   });
 
-  it('should not mutate the priority queue', function() {
+  it('should not mutate the priority queue', () => {
     let pq = new PriorityQueue();
     pq.enqueue(1);
     pq.enqueue(2);
@@ -1530,9 +1512,9 @@ describe('#peak', function() {
     
   });
 
-  it('should return exactly the element at the specified positive index', function() {
+  it('should return exactly the element at the specified positive index', () => {
 
-    let pq = new PriorityQueue([], function(a, b) {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1548,7 +1530,7 @@ describe('#peak', function() {
     expect(pq.peek(1)).to.equal(element); 
   });
 
-  it('should return exactly the element at the specified positive index for a priority queue with initial elements', function() {
+  it('should return exactly the element at the specified positive index for a priority queue with initial elements', () => {
 
     let element = { value: 2 }; 
     let pq = new PriorityQueue([
@@ -1556,7 +1538,7 @@ describe('#peak', function() {
       { value: 3 },
       { value: 4 },
       element,
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1565,7 +1547,7 @@ describe('#peak', function() {
     expect(pq.peek(1)).to.equal(element); 
   });
 
-  it('should not mutate the priority queue when a positive index is specified', function() {
+  it('should not mutate the priority queue when a positive index is specified', () => {
     let pq = new PriorityQueue();
     pq.enqueue(1);
     pq.enqueue(2);
@@ -1581,9 +1563,9 @@ describe('#peak', function() {
     
   });
   
-  it('should return exactly the element at the specified negative index', function() {
+  it('should return exactly the element at the specified negative index', () => {
 
-    let pq = new PriorityQueue([], function(a, b) {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1599,7 +1581,7 @@ describe('#peak', function() {
     expect(pq.peek(-3)).to.equal(element); 
   });
 
-  it('should return exactly the element at the specified negative index for a priority queue with initial elements', function() {
+  it('should return exactly the element at the specified negative index for a priority queue with initial elements', () => {
 
     let element = { value: 2 }; 
     let pq = new PriorityQueue([
@@ -1607,7 +1589,7 @@ describe('#peak', function() {
       { value: 3 },
       { value: 4 },
       element,
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -1616,7 +1598,7 @@ describe('#peak', function() {
     expect(pq.peek(-3)).to.equal(element); 
   });
 
-  it('should not mutate the priority queue when a negative index is specified', function() {
+  it('should not mutate the priority queue when a negative index is specified', () => {
     let pq = new PriorityQueue();
     pq.enqueue(1);
     pq.enqueue(2);
@@ -1631,26 +1613,24 @@ describe('#peak', function() {
     ]).to.deep.equal([1, 2, 3]);
   });
 
-  it('should return undefined for an empty priority queue', function() {
+  it('should return undefined for an empty priority queue', () => {
     expect((new PriorityQueue()).peek()).to.be.undefined;
   });
 
-  it('should return undefined if element at specified positive index does not exist', function() {
+  it('should return undefined if element at specified positive index does not exist', () => {
     expect((new PriorityQueue([1, 2, 3])).peek(10)).to.be.undefined;
   });
   
-  it('should return undefined if element at specified negative index does not exist', function() {
+  it('should return undefined if element at specified negative index does not exist', () => {
     expect((new PriorityQueue([1, 2, 3])).peek(-10)).to.be.undefined;
   });
 });
 
 { 
-  let describeReduceMethod = function(methodName) {
-    describe(`#${methodName}`, function() {
-      it('should reduce in the same manner that an Array reduces, the elements being iterated over in sorted order', function() {
-        function concatReduce(accumulator, currentValue) {
-          return accumulator + currentValue;
-        }
+  let describeReduceMethod = (methodName) => {
+    describe(`#${methodName}`, () => {
+      it('should reduce in the same manner that an Array reduces, the elements being iterated over in sorted order', () => {
+        let concatReduce = (accumulator, currentValue) => accumulator + currentValue;
 
         let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
 
@@ -1661,10 +1641,8 @@ describe('#peak', function() {
         );
       });
 
-      it('should reduce an empty priority queue in the same manner that an Array reduces an empty Array', function() {
-        function concatReduce(accumulator, currentValue) {
-          return accumulator + currentValue;
-        }
+      it('should reduce an empty priority queue in the same manner that an Array reduces an empty Array', () => {
+        let concatReduce = (accumulator, currentValue) => accumulator + currentValue;
 
         let pq = new PriorityQueue();
 
@@ -1675,10 +1653,8 @@ describe('#peak', function() {
         );
       });
 
-      it('should call the callback function passing an index the way that Array.prototype.reduce would', function() {
-        function indexReduce(accumulator, currentValue, currentIndex) {
-          return [accumulator, currentIndex].join(',');
-        }
+      it('should call the callback function passing an index the way that Array.prototype.reduce would', () => {
+        let indexReduce = (accumulator, currentValue, currentIndex) => [accumulator, currentIndex].join(',');
 
         let pq = new PriorityQueue(['z', 'y', 'x', 'w']);
 
@@ -1689,17 +1665,17 @@ describe('#peak', function() {
         );
       });
 
-      it('should pass the original priority queue to the callback function', function() {
+      it('should pass the original priority queue to the callback function', () => {
         let pq = new PriorityQueue([5, 4, 3, 2, 1]);
-        pq[methodName](function(accumulator, currentValue, currentIndex, pqReference) {
+        pq[methodName]((accumulator, currentValue, currentIndex, pqReference) => {
           expect(pqReference).to.equal(pq);
         });
       });
 
-      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', function() {
+      it('should iterate through all elements of the priority queue that were there at the time of call, even if the callback removes elements from the original priority queue', () => {
         expect(
           (new PriorityQueue([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]))[methodName](
-            function(accumulator, currentValue, currentIndex, pq) {
+            (accumulator, currentValue, currentIndex, pq) => {
               pq.dequeue();
               return accumulator + currentValue;
             },
@@ -1708,10 +1684,10 @@ describe('#peak', function() {
         ).to.equal(55);
       });
       
-      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', function() {
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds elements to the original priority queue', () => {
         expect(
           (new PriorityQueue([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]))[methodName](
-            function(accumulator, currentValue, currentIndex, pq) {
+            (accumulator, currentValue, currentIndex, pq) => {
               pq.enqueue(currentIndex + 1);
               pq.enqueue(currentIndex + 2);
               return accumulator + currentValue;
@@ -1721,10 +1697,10 @@ describe('#peak', function() {
         ).to.equal(65);
       });
 
-      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', function() {
+      it('should only iterate through the elements of the priority queue that were there at the time of call, even if the callback adds and removes elements to and from the original priority queue', () => {
         expect(
           (new PriorityQueue([11, 10, 9, 8, 7, 6, 5, 4, 3, 2]))[methodName](
-            function(accumulator, currentValue, currentIndex, pq) {
+            (accumulator, currentValue, currentIndex, pq) => {
               pq.enqueue(pq.dequeue() + 1);
               return accumulator + currentValue;
             },
@@ -1739,80 +1715,80 @@ describe('#peak', function() {
   describeReduceMethod('reduceRight');
 }
 
-describe('#slice', function() {
-  it('should return what Array.prototype.slice would return, with no arguments', function() {
+describe('#slice', () => {
+  it('should return what Array.prototype.slice would return, with no arguments', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice())
     ).to.deep.equal([1, 2, 3, 4, 5].slice());
   });
   
-  it('should return what Array.prototype.slice would return, with a positive begin argument', function() {
+  it('should return what Array.prototype.slice would return, with a positive begin argument', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(2));
   });
   
-  it('should return what Array.prototype.slice would return, with a negative begin argument', function() {
+  it('should return what Array.prototype.slice would return, with a negative begin argument', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(-2));
   }); 
   
-  it('should return what Array.prototype.slice would return, with a positive begin argument out of range', function() {
+  it('should return what Array.prototype.slice would return, with a positive begin argument out of range', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(10))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(10));
   }); 
   
-  it('should return what Array.prototype.slice would return, with a negative begin argument out of range', function() {
+  it('should return what Array.prototype.slice would return, with a negative begin argument out of range', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-10))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(-10));
   });
   
-  it('should return what Array.prototype.slice would return, with a positive end argument', function() {
+  it('should return what Array.prototype.slice would return, with a positive end argument', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, 3))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(1, 3));
   });
   
-  it('should return what Array.prototype.slice would return, with a negative end argument', function() {
+  it('should return what Array.prototype.slice would return, with a negative end argument', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, -2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(1, -2));
   }); 
   
-  it('should return what Array.prototype.slice would return, with a positive end argument out of range', function() {
+  it('should return what Array.prototype.slice would return, with a positive end argument out of range', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, 10))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(1, 10));
   }); 
   
-  it('should return what Array.prototype.slice would return, with a negative end argument out of range', function() {
+  it('should return what Array.prototype.slice would return, with a negative end argument out of range', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(1, -10))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(1, -10));
   });
 
-  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and positive', function() {
+  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and positive', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(2, 2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(2, 2));
   });
   
-  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and negative', function() {
+  it('should return what Array.prototype.slice would return, where the begin and end arguments are the same and negative', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2, -2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(2, 2));
   });
   
-  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are positive', function() {
+  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are positive', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(4, 2))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(4, 2));
   }); 
   
-  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are negative', function() {
+  it('should return what Array.prototype.slice would return, where the begin index is after the end index and both arguments are negative', () => {
     expect(
       Array.from((new PriorityQueue([5, 4, 3, 2, 1])).slice(-2, -4))
     ).to.deep.equal([1, 2, 3, 4, 5].slice(-2, -4));
@@ -1821,11 +1797,9 @@ describe('#slice', function() {
   itShouldRespectSpecies('slice');
 });
 
-describe('#some', function() {
-  it('should return what Array.prototype.some would when none of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+describe('#some', () => {
+  it('should return what Array.prototype.some would when none of the elements satisfy the predicate', () => {
+    let predicate = element => !(element % 3);
 
     expect(
       (new PriorityQueue([1, 2, 4, 5])).some(predicate)
@@ -1834,10 +1808,8 @@ describe('#some', function() {
     );
   });
   
-  it('should return what Array.prototype.some would when some of the elements satisfy the predicate', function() {
-    function predicate(element) {
-      return !(element % 3);
-    }
+  it('should return what Array.prototype.some would when some of the elements satisfy the predicate', () => {
+    let predicate = (element) => !(element % 3);
 
     expect(
       (new PriorityQueue([1, 2, 3, 4, 5, 6])).some(predicate)
@@ -1846,10 +1818,8 @@ describe('#some', function() {
     );
   });
   
-  it('should return what Array.prototype.some would when all of the elements satisfy the predicate', function() {
-    function predicate() {
-      return true;
-    }
+  it('should return what Array.prototype.some would when all of the elements satisfy the predicate', () => {
+    let predicate = () => true;
 
     expect(
       (new PriorityQueue([1, 2, 3, 4, 5, 6])).some(predicate)
@@ -1858,16 +1828,16 @@ describe('#some', function() {
     );
   });
 
-  it('should iterate through the elements the way Array.prototype.some would', function() {
+  it('should iterate through the elements the way Array.prototype.some would', () => {
     let pqIndices = [];
-    (new PriorityQueue([5, 6, 7, 8, 9])).some(function(element, index) {
+    (new PriorityQueue([5, 6, 7, 8, 9])).some((element, index) => {
       pqIndices.push(index);
       return element === 7;
     });
 
     let arrIndices = [];
 
-    [5, 6, 7, 8, 9].some(function(element, index) {
+    [5, 6, 7, 8, 9].some((element, index) => {
       arrIndices.push(index);
       return element === 7;
     });
@@ -1876,11 +1846,11 @@ describe('#some', function() {
 
   });
 
-  it('should return what Array.prototype.some would for an empty Array if the priority queue is empty', function() {
+  it('should return what Array.prototype.some would for an empty Array if the priority queue is empty', () => {
     expect(
-      (new PriorityQueue()).some(function() { return false; })
+      (new PriorityQueue()).some(() => { return false; })
     ).to.equal(
-      [].some(function() { return false; })
+      [].some(() => { return false; })
     );
   });
 
@@ -1889,9 +1859,9 @@ describe('#some', function() {
 
 });
 
-describe('#toLocaleString', function(){ 
-  it('should return the same as #toLocaleString of a sorted Array for a priority queue', function() {
-    let pq = new PriorityQueue([], function(a, b) {
+describe('#toLocaleString', () => { 
+  it('should return the same as #toLocaleString of a sorted Array for a priority queue', () => {
+    let pq = new PriorityQueue([], (a, b) => {
       let aTime = a.getTime();
       let bTime = b.getTime();
 
@@ -1912,14 +1882,14 @@ describe('#toLocaleString', function(){
     ]).toLocaleString());
   });
   
-  it('should return the same as #toLocaleString of a sorted Array for a priority queue with initial values', function() {
+  it('should return the same as #toLocaleString of a sorted Array for a priority queue with initial values', () => {
     expect(
       (new PriorityQueue([
         new Date(4), 
         new Date(3), 
         new Date(2), 
         new Date(1),
-      ], function(a, b) {
+      ], (a, b) => {
         let aTime = a.getTime();
         let bTime = b.getTime();
 
@@ -1937,19 +1907,19 @@ describe('#toLocaleString', function(){
     );
   });
 
-  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty', function() {
+  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty', () => {
     let pq = new PriorityQueue([1]);
     pq.dequeue();
     expect((new PriorityQueue()).toLocaleString()).to.equal(([]).toLocaleString());
   });
 
-  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty and in its initial state', function() {
+  it('should return the same as #toLocaleString of an empty Array when the priority queue is empty and in its initial state', () => {
     expect((new PriorityQueue()).toLocaleString()).to.equal(([]).toLocaleString());
   }); 
 });
 
-describe('#toString', function(){
-  it('should return the same as #toString of a sorted Array for a priority queue', function() {
+describe('#toString', () => {
+  it('should return the same as #toString of a sorted Array for a priority queue', () => {
     let pq = new PriorityQueue();
     pq.enqueue(4);
     pq.enqueue(3);
@@ -1958,24 +1928,24 @@ describe('#toString', function(){
     expect(pq.toString()).to.equal(([1, 2, 3, 4]).toString());
   });
   
-  it('should return the same as #toString of a sorted Array for a priority queue with initial values', function() {
+  it('should return the same as #toString of a sorted Array for a priority queue with initial values', () => {
     expect((new PriorityQueue([4, 3, 2, 1])).toString()).to.equal(([1, 2, 3, 4]).toString());
   });
 
-  it('should return the same as #toString of an empty Array when the priority queue is empty', function() {
+  it('should return the same as #toString of an empty Array when the priority queue is empty', () => {
     let pq = new PriorityQueue([1]);
     pq.dequeue();
     expect((new PriorityQueue()).toString()).to.equal(([]).toString());
   });
 
-  it('should return the same as #toString of an empty Array when the priority queue is empty and in its initial state', function() {
+  it('should return the same as #toString of an empty Array when the priority queue is empty and in its initial state', () => {
     expect((new PriorityQueue()).toString()).to.equal(([]).toString());
   });  
 
 });
 
-describe('#values', function() {
-  it('should return an iterator', function() {
+describe('#values', () => {
+  it('should return an iterator', () => {
     let pq = new PriorityQueue([0, 1, 2]);
 
     expect(pq.values()).to.respondTo('next');
@@ -1988,11 +1958,11 @@ describe('#values', function() {
 
   });
 
-  it('should return an iterator which outputs the elements of the priority queue exactly, not copies, in the correct order', function() {
+  it('should return an iterator which outputs the elements of the priority queue exactly, not copies, in the correct order', () => {
     let pq = new PriorityQueue([
       { value: 5 },
       { value: 4 },
-    ], function(a, b) {
+    ], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -2006,7 +1976,7 @@ describe('#values', function() {
     }
   });
 
-  it('should return an iterator that does not mutate the priority queue', function() {
+  it('should return an iterator that does not mutate the priority queue', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
     
     let arrayFromPQ = Array.from(pq.values());
@@ -2021,7 +1991,7 @@ describe('#values', function() {
     ]).to.deep.equal([1, 2, 3, 4, 5]);
   });
 
-  it('should return iterators which are independent of one another', function() {
+  it('should return iterators which are independent of one another', () => {
     let pq = new PriorityQueue([5, 4, 3, 2, 1]);
 
     let it0 = pq.values();
@@ -2034,19 +2004,19 @@ describe('#values', function() {
 
 
 
-describe('JSON.stringify', function(){
-  it('should return the same as JSON.stringify([]) when the priority queue is empty', function() {
+describe('JSON.stringify', () => {
+  it('should return the same as JSON.stringify([]) when the priority queue is empty', () => {
     let pq = new PriorityQueue([1]);
     pq.dequeue();
     expect(JSON.stringify(new PriorityQueue())).to.equal(JSON.stringify([]));
   });
 
-  it('should return the same as JSON.stringify([]) when the priority queue is empty and in its initial state', function() {
+  it('should return the same as JSON.stringify([]) when the priority queue is empty and in its initial state', () => {
     expect(JSON.stringify(new PriorityQueue())).to.equal(JSON.stringify([]));
   });
 
-  it('should return the same as JSON.stringify of a sorted array of the elements of the priority queue', function() {
-    let pq = new PriorityQueue([], function(a, b) {
+  it('should return the same as JSON.stringify of a sorted array of the elements of the priority queue', () => {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -2064,8 +2034,8 @@ describe('JSON.stringify', function(){
     ]));
   });
   
-  it('should return the same as JSON.stringify of a sorted array of the elements of the priority queue where the elements have a toJSON method defined', function() {
-    let pq = new PriorityQueue([], function(a, b) {
+  it('should return the same as JSON.stringify of a sorted array of the elements of the priority queue where the elements have a toJSON method defined', () => {
+    let pq = new PriorityQueue([], (a, b) => {
       if (a.value > b.value) return 1;
       else if (a.value < b.value) return -1;
       else return 0;
@@ -2073,19 +2043,19 @@ describe('JSON.stringify', function(){
 
     pq.enqueue({ 
       value: 4,
-      toJSON: function() { return 'd'; },
+      toJSON: () => { return 'd'; },
     });
     pq.enqueue({ 
       value: 3 ,
-      toJSON: function() { return 'c'; },
+      toJSON: () => { return 'c'; },
     });
     pq.enqueue({ 
       value: 2,
-      toJSON: function() { return 'b' },
+      toJSON: () => { return 'b' },
     });
     pq.enqueue({ 
       value: 1,
-      toJSON: function() { return 'a' },
+      toJSON: () => { return 'a' },
     });
 
     expect(JSON.stringify(pq)).to.deep.equal(JSON.stringify(['a', 'b', 'c', 'd']));
