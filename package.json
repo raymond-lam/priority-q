@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "rm -rf .nyc_output coverage lib",
     "prepublishOnly": "npm run compile",
-    "compile": "babel -d lib/ src/",
+    "compile": "npm run clean && babel -d lib/ src/",
     "test": "cross-env BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha"
   },
   "author": {
