@@ -1,3 +1,5 @@
+'use strict';
+
 //     priority-queue.js 2.0.0
 //     https://github.com/raymond-lam/es6-priority-queue
 //     (c) 2017 Raymond Lam
@@ -19,9 +21,9 @@ module.exports = class {
   // an empty array) and a comparator (which defaults to defaultCmp). It
   // constructs a priority queue, where the given comparator will always be used
   // for comparisons, and enqueues the given initial elements.
-  constructor(init = [], cmp  = defaultCmp) {
+  constructor(init = [], cmp = defaultCmp) {
     this._cmp = cmp;
-    
+
     // This priority queue is implemented as a binary min-heap represented by as
     // an array.
     this._heap = [];
@@ -38,7 +40,7 @@ module.exports = class {
   // Removes all elements from the priority queue. Returns the number of
   // elements removed.
   clear() {
-    let length = this.length;
+    const length = this.length;
     this._heap = [];
     return length;
   }
@@ -49,8 +51,8 @@ module.exports = class {
     // Should be O(n) time complexity, because elements enqueued directly from a
     // a heap will already be in the correct order and not need to be percolated
     // up.
-    
-    if (this.constructor[Symbol.species]) 
+
+    if (this.constructor[Symbol.species])
       return new this.constructor[Symbol.species](this._heap, this._cmp);
     else
       return new this.constructor(this._heap, this._cmp);
@@ -58,8 +60,8 @@ module.exports = class {
 
   // Returns an Array of the priority queue's elements in sorted order
   // concatenated with the given arguments.
-  concat() {
-    return Array.from(this).concat(...arguments);
+  concat(...arrays) {
+    return Array.from(this).concat(...arrays);
   }
 
   // Removes the minimum element of the priority queue, Returns undefined if the
@@ -70,9 +72,9 @@ module.exports = class {
     if (this._heap.length < 2) return this._heap.pop();
 
     // Save the return value, and put the last leaf of the heap at the root.
-    let returnValue = this._heap[0];
+    const returnValue = this._heap[0];
     this._heap[0] = this._heap.pop();
-    
+
     // The binary heap is represented as an array, where given an element at
     // index i, the first child is (i * 2) + 1, and the second child is at
     // (i * 2) + 2.
@@ -81,28 +83,30 @@ module.exports = class {
     // Initialize i, childI1 and childI2 at the root and its children
     // respectively. let nextI be the index of the minimum element of the
     // current element and its children. Stop if we've reached the end of the
-    // heap or if the minimum element is the current element at i. Otherwise, 
+    // heap or if the minimum element is the current element at i. Otherwise,
     // swap the current element at i with the element at nextI, and continue the
-    // loop. For the next iteration of the loop, i becomes nextI (the index 
-    // whose element we'd swapped), and childI1 and childI2 are the indices of 
+    // loop. For the next iteration of the loop, i becomes nextI (the index
+    // whose element we'd swapped), and childI1 and childI2 are the indices of
     // the children.
     for (
       let i = 0, childI1 = 1, childI2 = 2, nextI;
       childI1 < this._heap.length && (
         nextI = this._minInHeap(
-          i, childI1, childI2 < this._heap.length ? childI2 : void(0)
+          i,
+          childI1,
+          childI2 < this._heap.length ? childI2 : undefined
         )
       ) !== i;
       i = nextI, childI1 = (i * 2) + 1, childI2 = childI1 + 1
     ) this._swapInHeap(i, nextI);
-    
+
     return returnValue;
   }
 
   // Inserts each of the given arguments into the appropriate place in the
   // priority queue. Returns the resulting length of the priority queue.
   enqueue(...newValues) {
-    for (let newValue of newValues) {
+    for (const newValue of newValues) {
       // The enqueued element becomes the last leaf of the heap, which will be
       // percolated up as necessary.
       this._heap.push(newValue);
@@ -111,11 +115,11 @@ module.exports = class {
       // index i, its parent is at floor((i - 1) / 2).
       //
       // Percolate up:
-      // Start the loop at the last leaf of the heap. Stop the loop if the 
-      // current element is the root of the heap or if the current element 
-      // greater than or equal to the parent. Otherwise, swap the current 
+      // Start the loop at the last leaf of the heap. Stop the loop if the
+      // current element is the root of the heap or if the current element
+      // greater than or equal to the parent. Otherwise, swap the current
       // element with its parent, and continue the loop at the parent.
-  
+
       for (
         let i = this._heap.length - 1, parentI = Math.floor((i - 1) / 2);
         i > 0 && this._cmpInHeap(i, parentI) < 0;
@@ -131,15 +135,15 @@ module.exports = class {
   // values occupy in the priority queue.
   *entries() {
     let i = 0;
-    for (let value of this) {
+    for (const value of this) {
       yield [i++, value];
     }
   }
- 
-  // Tests whether all elements in the priority queue pass the test implemented 
-  // by the provided function. 
+
+  // Tests whether all elements in the priority queue pass the test implemented
+  // by the provided function.
   every(callback, thisArg) {
-    for (let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       if (!callback.call(thisArg, element, i, this)) return false;
     return true;
   }
@@ -147,15 +151,15 @@ module.exports = class {
   // Returns the value of the first element in the priority queue that satisfies
   // the provided testing function, or undefined otherwise.
   find(callback, thisArg) {
-    for (let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       if (callback.call(thisArg, element, i, this)) return element;
     return undefined;
   }
-  
+
   // Returns the index of the first element in the priority queue that satisfies
   // the provided testing function, or undefined otherwise.
   findIndex(callback, thisArg) {
-    for (let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       if (callback.call(thisArg, element, i, this)) return i;
     return -1;
   }
@@ -163,18 +167,18 @@ module.exports = class {
   // Calls the given function on each element of the priority queue in order,
   // optionally in the context of the given thisArg.
   forEach(callback, thisArg) {
-    for(let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       callback.call(thisArg, element, i, this);
   }
 
   // Returns true if searchElement is present in the priority queue, starting
   // search at fromIndex
   includes(searchElement, fromIndex = 0) {
-    // If fromIndex is 0, it means search the whole queue, in which case order 
+    // If fromIndex is 0, it means search the whole queue, in which case order
     // doesn't matter, so we can just delegate to the heap
     if (fromIndex === 0) return this._heap.includes(searchElement);
 
-    // Negative fromIndex means start that many from the end of the priority 
+    // Negative fromIndex means start that many from the end of the priority
     // queue
     if (fromIndex < 0) fromIndex = this.length + fromIndex;
 
@@ -196,15 +200,13 @@ module.exports = class {
     return this.findIndex((el, i) => i >= fromIndex && el === searchElement);
   }
 
-  // Creates a new priority queue with all elements that pass the test 
+  // Creates a new priority queue with all elements that pass the test
   // implemented by the provided function.
   filter(callback, thisArg) {
-    let pq = this.constructor[Symbol.species]
+    const pq = this.constructor[Symbol.species]
       ? new this.constructor[Symbol.species]([], this._cmp)
-      : new this.constructor([], this._cmp)
-    ;
-
-    for (let [i, element] of this.entries())
+      : new this.constructor([], this._cmp);
+    for (const [i, element] of this.entries())
       if (callback.call(thisArg, element, i, this))
         pq.enqueue(element);
 
@@ -212,21 +214,21 @@ module.exports = class {
   }
 
   // Joins the elements of the priority queue in sorted order into a string.
-  join() {
-    return Array.from(this).join(...arguments);
+  join(...args) {
+    return Array.from(this).join(...args);
   }
 
   // Returns the last index at which a given element can be found in the array,
   // or -1 if it is not present
-  lastIndexOf() {
-    return Array.from(this).lastIndexOf(...arguments);
+  lastIndexOf(...args) {
+    return Array.from(this).lastIndexOf(...args);
   }
 
-  // Returns a new array with the results of calling a provided function on 
+  // Returns a new array with the results of calling a provided function on
   // every element in this priority queue in order.
   map(callback, thisArg) {
-    let arr = [];
-    for (let [i, element] of this.entries())
+    const arr = [];
+    for (const [i, element] of this.entries())
       arr.push(callback.call(thisArg, element, i, this));
     return arr;
   }
@@ -240,24 +242,24 @@ module.exports = class {
     }
   }
 
-  // Applies a function against an accumulator and each value of the priority 
+  // Applies a function against an accumulator and each value of the priority
   // queue in order to reduce it to a single value.
   reduce(callback, initialValue) {
-    for (let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       initialValue = callback(initialValue, element, i, this);
     return initialValue;
   }
 
-  // Applies a function against an accumulator and each value of the priority 
+  // Applies a function against an accumulator and each value of the priority
   // queue in reverse order to reduce it to a single value.
   reduceRight(callback, initialValue) {
-    for (let [i, element] of Array.from(this.entries()).reverse())
+    for (const [i, element] of Array.from(this.entries()).reverse())
       initialValue = callback(initialValue, element, i, this);
     return initialValue;
   }
 
-  // Returns a shallow copy of a portion of an priority queue into a new 
-  // priority queue selected from begin to end (end not included). The original 
+  // Returns a shallow copy of a portion of an priority queue into a new
+  // priority queue selected from begin to end (end not included). The original
   // array is not modified.
   slice(begin = 0, end = this.length) {
 
@@ -267,10 +269,10 @@ module.exports = class {
     return this.filter((el, i) => i >= begin && i < end);
   }
 
-  // Tests whether some element in the priority queue passes the test 
+  // Tests whether some element in the priority queue passes the test
   // implemented by the provided function.
   some(callback, thisArg) {
-    for (let [i, element] of this.entries())
+    for (const [i, element] of this.entries())
       if (callback.call(thisArg, element, i, this)) return true;
     return false;
   }
@@ -281,26 +283,26 @@ module.exports = class {
     return Array.from(this);
   }
 
-  // The locale-specific string form of this priority queue should be the 
-  // locale-specific string form of an array of this priority queue's elements 
+  // The locale-specific string form of this priority queue should be the
+  // locale-specific string form of an array of this priority queue's elements
   // in sorted order.
   toLocaleString() {
     return Array.from(this).toLocaleString();
   }
 
-  // The string form of this priority queue should be the string form of an 
+  // The string form of this priority queue should be the string form of an
   // array of this priority queue's elements in sorted order.
   toString() {
     return Array.from(this).toString();
   }
-  
+
   // Returns a new Iterator which iterates over the priority queue's values,
   // without mutating the priority queue itself.
   *values() {
     // Clone this because we don't want to mutate the original priority queue by
     // iterating over its elements.
-    var priorityQueue = this.clone();
-  
+    const priorityQueue = this.clone();
+
     while (priorityQueue.length) {
       yield priorityQueue.dequeue();
     }
@@ -323,17 +325,17 @@ module.exports = class {
   // them.
   _minInHeap(i1, i2, i3) {
 
-    // First compare the elements at the first two given indices. Return the 
+    // First compare the elements at the first two given indices. Return the
     // index for minimum of them, or if we are given a third index, compare with
     // that corresponding element and return the minimum of them.
-    let i = this._cmpInHeap(i1, i2) > 0 ? i2 : i1;
+    const i = this._cmpInHeap(i1, i2) > 0 ? i2 : i1;
     if (typeof i3 === 'undefined') return i;
     else return this._cmpInHeap(i, i3) > 0 ? i3 : i;
   }
 
-  // Helper method. Swaps the elements at the given indices of the heap array. 
+  // Helper method. Swaps the elements at the given indices of the heap array.
   _swapInHeap(i1, i2) {
-    let tmp = this._heap[i1];
+    const tmp = this._heap[i1];
     this._heap[i1] = this._heap[i2];
     this._heap[i2] = tmp;
   }
