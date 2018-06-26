@@ -13,7 +13,7 @@
   ],
   "homepage": "https://github.com/raymond-lam/es6-priority-queue",
   "scripts": {
-    "clean": "rm -rf .nyc_output coverage",
+    "clean": "rm -rf coverage",
     "test": "eslint --ignore-path .npmignore . && nyc --reporter=lcov --reporter=text mocha"
   },
   "author": {
@@ -32,7 +32,8 @@
     "statements": 100,
     "functions": 100,
     "branches": 100,
-    "check-coverage": true
+    "check-coverage": true,
+    "temp-directory": "./coverage/.nyc_output"
   },
   "devDependencies": {
     "chai": "^4.1.2",

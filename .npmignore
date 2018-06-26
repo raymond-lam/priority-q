@@ -1,5 +1,4 @@
 .eslintrc.yml
-.nyc_output
 .travis.yml
 coverage
 test.js
