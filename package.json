@@ -1,8 +1,8 @@
 {
   "name": "@raymond-lam/priority-queue",
   "version": "2.0.1",
-  "description": "A simple ECMAScript 6 implementation of a priority queue data structure class.",
-  "main": "./lib/priority-queue.js",
+  "description": "A simple modern JavaScript implementation of a priority queue data structure class.",
+  "main": "index.js",
   "keywords": [
     "priority queue",
     "priority-queue",
@@ -13,10 +13,8 @@
   ],
   "homepage": "https://github.com/raymond-lam/es6-priority-queue",
   "scripts": {
-    "clean": "rm -rf .nyc_output coverage lib",
-    "prepublishOnly": "npm run compile",
-    "compile": "npm run clean && babel -d lib/ src/",
-    "test": "cross-env BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha"
+    "clean": "rm -rf .nyc_output coverage",
+    "test": "nyc --reporter=lcov --reporter=text mocha"
   },
   "author": {
     "name": "Raymond Lam",
@@ -27,38 +25,7 @@
     "url": "https://github.com/raymond-lam/es6-priority-queue.git"
   },
   "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-istanbul": "^4.0.0",
-    "babel-plugin-transform-es2015-modules-umd": "^6.18.0",
-    "chai": "^4.0.2",
-    "cross-env": "^5.0.0",
-    "mocha": "^5.0.0",
-    "nyc": "^12.0.1"
-  },
-  "babel": {
-    "plugins": [
-      "add-module-exports",
-      ["transform-es2015-modules-umd", {
-        "globals":{
-          "priority-queue": "PriorityQueue"
-        },
-        "exactGlobals": true
-      }]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
   "nyc": {
-    "require": [
-      "babel-register"
-    ],
     "sourceMap": false,
     "instrument": false,
     "lines": 100,
@@ -66,5 +33,10 @@
     "functions": 100,
     "branches": 100,
     "check-coverage": true
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2"
   }
 }

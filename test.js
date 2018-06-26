@@ -1,5 +1,5 @@
-import PriorityQueue from "../src/priority-queue";
-import { expect } from 'chai';
+const PriorityQueue = require('./index.js');
+const {expect} = require('chai');
 
 // Helper function which asserts that the given method passes the original
 // priority queue into the callback function. Takes as arguments the name of the

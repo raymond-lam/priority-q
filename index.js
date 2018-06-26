@@ -14,7 +14,7 @@ function defaultCmp(a, b) {
   else return 0;
 }
 
-export default class {
+module.exports = class {
   // Constructor takes initial elements of the priority queue (which defaults to
   // an empty array) and a comparator (which defaults to defaultCmp). It
   // constructs a priority queue, where the given comparator will always be used
