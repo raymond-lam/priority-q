@@ -1,8 +1,8 @@
 'use strict';
 
-//     priority-queue.js 2.0.0
+//     priority-q 3.0.0
 //     https://github.com/raymond-lam/es6-priority-queue
-//     (c) 2017 Raymond Lam
+//     (c) 2018 Raymond Lam
 //
 //     Author: Raymond Lam (ray@lam-ray.com)
 //

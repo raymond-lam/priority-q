@@ -1,18 +1,29 @@
 # Changelog
 
+## [3.0.0] - 2018-06-26
+
+### Added
+
+- automatic NPM publication in Travis CI configuration
+- linting
+
+### Changed
+
+- package name is now `priority-q`
+- no longer transpiles to UMD module
+
 ## [2.0.1] - 2017-12-29
 
-## Changed
+### Changed
 
 - dependency version updates
 - `npm run compile` will run `npm run clean` first
 
-
-## Removed
+### Removed
 
 - unneeded babel preset in `devDependencies`
 
-## Fixed
+### Fixed
 
 - `prepublish` should be `prepublishOnly` in package.json
 
