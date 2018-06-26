@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/raymond-lam/es6-priority-queue.svg?branch=master)](https://travis-ci.org/raymond-lam/es6-priority-queue) [![Greenkeeper badge](https://badges.greenkeeper.io/raymond-lam/es6-priority-queue.svg)](https://greenkeeper.io/)
 
-# priority-queue.js
+# priority-q
 
-A simple ECMAScript 6 implementation of a priority queue data structure class.
+A simple, modern JavaScript implementation of a priority queue data structure class.
 
-In addition to being a useful utility, this implementation serves as a demonstration of a number of features and conveniences that are new to the sixth version of ECMAScript (JavaScript) including:
+In addition to being a useful utility, this implementation serves as a demonstration of a number of features and conveniences that are available in "modern" JavaScript (ECMAScript 2015 and later), including: 
 - arrow functions
 - classes, including inheritance, static members, and getters
 - default parameter values
@@ -18,27 +18,6 @@ In addition to being a useful utility, this implementation serves as a demonstra
 - spread operator
 - `Symbol.species`
 - template strings
-
-## Usage
-
-To install: `npm install @raymond-lam/priority-queue`
-
-The priority queue class is made available as module defined in the [UMD](https://github.com/umdjs/umd) format. When in the context of neither AMD nor CommonJS, the module will exist in the global namespace as `PriorityQueue`. 
-
-### AMD
-    
-    require(['priority-queue'], function(PriorityQueue) {
-      let pq = new PriorityQueue([1, 2, 3, 4]);
-    });
-
-### CommonJS
-
-    let PriorityQueue = require('@raymond-lam/priority-queue');
-    let pq = new PriorityQueue([1, 2, 3, 4]);
-
-### Global
-
-    let pq = new PriorityQueue([1, 2, 3, 4]);
 
 ## API
 
