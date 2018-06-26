@@ -1,2 +1,10 @@
 language: node_js
 node_js: node
+deploy:
+  provider: npm
+  email: ray@lam-ray.com
+  api_key:
+    secure: a5zCyLaQE4kgMLz9Aq5bWpg4tMRfzAtDf7+8o5ukI4ZPvorDTyQ62RyZeb2WkrarX+SM63Nz9OA270yY6E6J3M6eoz0wcW+M/5pz81UWDj4aTTbiI0r3iyRWdurvvMxc8dLLUJAdwPnmUZm35SHUmqO5UfEiqTH2kbmiMWWcvTfqC6xzatL/gEk3/rp+qX1+WOtrPpjL+V69qx0RkrWK6ZSjoijmU9t5CySTg6Bder7I7O2Xbgbu6mpepQfNdHBTeEy3o2R7xiAcR/4GPS8JqXRXWFxwN7uffaLE6qCLsG+u2YQCQQCVjGwRHUTDKpDCsQ7RSaxCn5WBLbXwFlr5Gy1NJGB0CNEFxJj2QCsLSaTeJeTlnjyxOkjGUT6OSu6O0IQUY2MKDFvf5HV7Ai37QIPj/wwfK89NmW+aYKd1013EE1CD+bmYxusEkFEqfF8DeWrs34wPA8N9lESPtND9om8+SRHl1gb3jumoXFyzUjHRztRszpWEp0cexGKUtNYlo5abgNUl3PPjltDY6I4wlb7oEX75akr9dhEuQkWPpqq9nkT9pou3qtazU7vL43QyTml/xXYIMFhKVmhqBLAXC9tofAsWqKs0k55QUHpuzOehC6IMB8nB24KjsqfU9LgN+rUYsVSLKrW9p0gVENpIrwKTl+9xGwwUr3VSBXvx9mU=
+  on:
+    tags: true
+    repo: raymond-lam/es6-priority-queue
