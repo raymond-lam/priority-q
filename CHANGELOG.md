@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.1] - 2018-06-28
+
+### Changed
+
+- changed references to git repo to priority-q
+
 ## [3.0.0] - 2018-06-26
 
 ### Added

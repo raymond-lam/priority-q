@@ -1,6 +1,6 @@
 'use strict';
 
-//     priority-q 3.0.0
+//     priority-q 3.0.1
 //     https://github.com/raymond-lam/priority-q
 //     (c) 2018 Raymond Lam
 //
