@@ -13,7 +13,7 @@
   ],
   "homepage": "https://github.com/raymond-lam/priority-q",
   "scripts": {
-    "clean": "rimraf -rf coverage",
+    "clean": "rimraf coverage",
     "test": "eslint --ignore-path .npmignore . && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha"
   },
   "author": {
