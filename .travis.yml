@@ -1,5 +1,8 @@
 language: node_js
 node_js: node
+install: npm install
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
 deploy:
   provider: npm
   email: ray@lam-ray.com
@@ -8,3 +11,6 @@ deploy:
   on:
     tags: true
     repo: raymond-lam/priority-q
+env:
+  global:
+    secure: htlReFMOr26Tcy+nDqfcNEgKH8+ATVqkYH3NYW1HxYd8rcRlzl4iYsgSvzp0HR4hbDGydxmMT9p2aM60vOpUkd8/fGPeSlPTTi3AKYi5F554WoGBjUGrnGTLLpnqaVRtbdBI9Ypars0DuhGkJXY+fTMFm6gV0P5dcFiB///5u7NWzlCn4mvanCCjOFHBIbK2qOhqLyfAWMvTznzDJb2fgPXSZBoiEwGXVH0QISiIPw8bNTpsBYM2w1UvZqq7L5eQxCu+3QuOWaJBuNmGxcbDOYl2JsSl126gaX+ezttx8S8JW4XO0z6JiKAdvTk843gXJkbn7ZqXRHUGk065nWN3ZCtZZpXvtvWUyxYsKKPnH8yRz2S+c8Y6BlIymEPbG99i+KJjhmqmr1Lq7Ob2H0Hvvt2aD822QmNCs4vqWvYlBsfIx3f7joXVOS/4EkCo36YxBz2C0w4bAqYQDr23b6/hXWPT6JHdBXwaa6T4V11EuVMPeRQrc5eCtnxoQmgFm3PRL4JMBTWsHFLVQCrxk+Dz7h4gTx5W/sF8lmr0h+4stXtdHzP12ZXqGVi7ofUkN5Ef3IXM2xac5TmYqT7BxJXbdcRwtKQtdm8UEoI+KYrZNAISs1/jfqZvOHBEWcaYL7G9nMEO2yrwJIkFbnHCDWCNLvaXUanocwVkfl14Pgn5uIs=
