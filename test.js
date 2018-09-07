@@ -55,7 +55,7 @@ function itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge(methodName, ..
   
   for (const i of BIG_ARRAY) pq.enqueue(i);
 
-  it('should not throw an exception of the priority queue is very large (issue #10)', () => {
+  it('should not throw an exception if the priority queue is very large (issue #10)', () => {
     expect(() => pq[methodName](...methodArguments)).not.to.throw();
   });
 }
