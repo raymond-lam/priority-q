@@ -51,7 +51,7 @@ module.exports = class {
   clone() {
 
     // Should be O(n) time complexity, because elements enqueued directly from a
-    // a heap will already be in the correct order and not need to be percolated
+    // a heap will already be in the correct order and not need to be bubbled
     // up.
 
     if (this.constructor[Symbol.species])
@@ -110,13 +110,13 @@ module.exports = class {
   enqueue(...newValues) {
     for (const newValue of newValues) {
       // The enqueued element becomes the last leaf of the heap, which will be
-      // percolated up as necessary.
+      // bubbled up as necessary.
       this._heap.push(newValue);
 
       // The binary heap is represented as an array, where given an element at
       // index i, its parent is at floor((i - 1) / 2).
       //
-      // Percolate up:
+      // Bubble up:
       // Start the loop at the last leaf of the heap. Stop the loop if the
       // current element is the root of the heap or if the current element
       // greater than or equal to the parent. Otherwise, swap the current
