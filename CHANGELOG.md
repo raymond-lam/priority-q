@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.2] - 2018-09-06
+
+### Fixed
+
+- support very large priority queues (issue #10)
+- deployment API key
+- use rimraf so that npm clean is cross-platform
+- ignore swp files
+
 ## [3.0.1] - 2018-06-28
 
 ### Changed
