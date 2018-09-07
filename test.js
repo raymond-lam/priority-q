@@ -1,6 +1,9 @@
 const PriorityQueue = require('./index.js');
 const {expect} = require('chai');
 
+const BIG_NUMBER_OF_THINGS = 500000;
+const BIG_ARRAY = Array.from({length: BIG_NUMBER_OF_THINGS}).map((element, i) => i).reverse();
+
 // Helper function which asserts that the given method passes the original
 // priority queue into the callback function. Takes as arguments the name of the
 // method and a return value for the callback function.
@@ -43,6 +46,18 @@ function itShouldSetTheContextOfTheCallbackCorrectly(methodName, returnValue) {
 
   });
 
+}
+
+// Helper function which asserts that the given method does not throw if the
+// priority queue is very large.
+function itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge(methodName, ...methodArguments) {
+  let pq = new PriorityQueue();
+  
+  for (const i of BIG_ARRAY) pq.enqueue(i);
+
+  it('should not throw an exception of the priority queue is very large (issue #10)', () => {
+    expect(() => pq[methodName](...methodArguments)).not.to.throw();
+  });
 }
 
 function itShouldRespectSpecies(methodName, ...methodArguments) {
@@ -128,6 +143,10 @@ describe('constructor', () => {
     ]).to.deep.equal([9, 8, 5, 3, 3, 2]);
   });
 
+  it('should not throw an exception if given a very large array (issue #10)', () => {
+    expect(() => new PriorityQueue(BIG_ARRAY)).to.not.throw();
+  })
+
 });
 
 describe('iteratable protocol', () => {
@@ -162,6 +181,14 @@ describe('iteratable protocol', () => {
       pq.dequeue(),
       pq.dequeue(),
     ]).to.deep.equal([1, 2, 3, 4, 5]);
+  });
+
+  it('should not throw an exception if the priority queue is very large (issue #10)', () => {
+    const pq = new PriorityQueue();
+    
+    for (const i of BIG_ARRAY) pq.enqueue(i);
+
+    expect(() => Array.from(pq)).to.not.throw();
   });
 
 });
@@ -217,6 +244,8 @@ describe('#clear', () => {
 
     expect(pq.length).to.equal(0);
   });
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('clear');
 });
 
 describe('#clone', () => {
@@ -260,6 +289,7 @@ describe('#clone', () => {
   });
 
   itShouldRespectSpecies('clone'); 
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('clone');
 });
 
 describe('#concat', () => {
@@ -272,6 +302,8 @@ describe('#concat', () => {
       (new PriorityQueue([5, 3, 1])).concat([1, 2, 3], 7, [6])
     ).to.deep.equal([1, 3, 5].concat([1, 2, 3], 7, [6]));
   });
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('concat', [1, 2, 3]);
 });
 
 describe('#dequeue', () => {
@@ -316,6 +348,8 @@ describe('#dequeue', () => {
     let pq = new PriorityQueue();
     expect(pq.dequeue()).to.be.undefined;
   });
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('dequeue');
 });
 
 describe('#enqueue', () => {
@@ -609,6 +643,7 @@ describe('#enqueue', () => {
     expect(pq.enqueue(0)).to.equal(4);
   });
 
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('enqueue', 10);
 });
 
 describe('#entries', () => {
@@ -682,6 +717,7 @@ describe('#entries', () => {
     ]);
   });
 
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('entries');
 });
 
 describe('#every', () => {
@@ -743,7 +779,7 @@ describe('#every', () => {
 
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('every', false);
   itShouldSetTheContextOfTheCallbackCorrectly('every', false);
-
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('every', () => true);
 });
 
 describe('#forEach', () => {
@@ -787,6 +823,7 @@ describe('#forEach', () => {
   
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('forEach');
   itShouldSetTheContextOfTheCallbackCorrectly('forEach');
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('forEach', () => {});
 });
 
 {
@@ -953,7 +990,9 @@ describe('#forEach', () => {
         ).to.equal(
           [NaN, 2, 3, 4, 5][methodName](NaN, 1)
         );
-      }); 
+      });
+
+      itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge(methodName, 10);
     });
   };
 
@@ -1015,6 +1054,7 @@ describe('#filter', () => {
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('filter', true);
   itShouldSetTheContextOfTheCallbackCorrectly('filter', true);
   itShouldRespectSpecies('filter', () => { return true; });
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('filter', () => true);
 });
 
 describe('#join', () => {
@@ -1025,6 +1065,8 @@ describe('#join', () => {
   it('should join the elements of the priority queue in sorted order, with separator', () => {
     expect((new PriorityQueue(['z', 'y', 'x'])).join('::')).to.equal(['x', 'y', 'z'].join('::'));
   });
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('join', ',');
 });
 
 { 
@@ -1134,6 +1176,7 @@ describe('#join', () => {
 
       itShouldPassTheOriginalPriorityQueueToTheCallbackFunction(methodName, false);
       itShouldSetTheContextOfTheCallbackCorrectly(methodName, false);
+      itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge(methodName, () => false);
     });
   };
   
@@ -1303,6 +1346,8 @@ describe('#lastIndexOf', () => {
       [2, 3, 4, 5, NaN].lastIndexOf(NaN, -2)
     );
   }); 
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('lastIndexOf', 10);
 });
 
 describe('#map', () => {
@@ -1372,6 +1417,7 @@ describe('#map', () => {
 
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('map');
   itShouldSetTheContextOfTheCallbackCorrectly('map');
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('map', () => 10);
 });
 
 describe('#length', () => {
@@ -1458,6 +1504,14 @@ describe('#length', () => {
     let pq = new PriorityQueue([1, 1, 1, 2, 3]);
     pq.dequeue();
     expect(pq.length).to.equal(4);
+  });
+
+  it('should not throw an exception if the priority queue is very large (issue #10)', () => {
+    const pq = new PriorityQueue();
+
+    for (const i of BIG_ARRAY) pq.enqueue(i);
+
+    expect(() => pq.length).to.not.throw();
   });
 });
 
@@ -1624,6 +1678,8 @@ describe('#peak', () => {
   it('should return undefined if element at specified negative index does not exist', () => {
     expect((new PriorityQueue([1, 2, 3])).peek(-10)).to.be.undefined;
   });
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('peek');
 });
 
 { 
@@ -1708,6 +1764,8 @@ describe('#peak', () => {
           )
         ).to.equal(65);
       });
+
+      itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge(methodName, () => 10);
     });
   };
 
@@ -1795,6 +1853,7 @@ describe('#slice', () => {
   });  
   
   itShouldRespectSpecies('slice');
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('slice');
 });
 
 describe('#some', () => {
@@ -1856,6 +1915,7 @@ describe('#some', () => {
 
   itShouldPassTheOriginalPriorityQueueToTheCallbackFunction('some', false);
   itShouldSetTheContextOfTheCallbackCorrectly('some', false);
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('some', () => false);
 
 });
 
@@ -1916,6 +1976,8 @@ describe('#toLocaleString', () => {
   it('should return the same as #toLocaleString of an empty Array when the priority queue is empty and in its initial state', () => {
     expect((new PriorityQueue()).toLocaleString()).to.equal(([]).toLocaleString());
   }); 
+
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('toLocaleString')
 });
 
 describe('#toString', () => {
@@ -1942,6 +2004,7 @@ describe('#toString', () => {
     expect((new PriorityQueue()).toString()).to.equal(([]).toString());
   });  
 
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('toString');
 });
 
 describe('#values', () => {
@@ -2000,6 +2063,7 @@ describe('#values', () => {
     expect([...it0, ...it1]).to.deep.equal([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]);
   });
 
+  itShouldNotThrowAnExceptionIfThePriorityQueueIsVeryLarge('values');
 });
 
 
@@ -2061,4 +2125,11 @@ describe('JSON.stringify', () => {
     expect(JSON.stringify(pq)).to.deep.equal(JSON.stringify(['a', 'b', 'c', 'd']));
   });
 
+  it('should not throw an exception if the priority queue is very large (issue #10)', () => {
+    const pq = new PriorityQueue();
+
+    for (const i of BIG_ARRAY) pq.enqueue(i);
+
+    expect(() => JSON.stringify(pq)).to.not.throw();
+  });
 });
