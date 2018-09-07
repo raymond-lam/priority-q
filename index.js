@@ -28,7 +28,9 @@ module.exports = class {
     // an array.
     this._heap = [];
 
-    this.enqueue(...init);
+    // enqueue in a loop rather than using the spread operator, to accomodate
+    // very large init array (see issue #10)
+    for (const element of init) this.enqueue(element);
   }
 
   // Define an iterator which successively dequeues from a clone of this
