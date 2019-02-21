@@ -14,7 +14,7 @@
   "homepage": "https://github.com/raymond-lam/priority-q",
   "scripts": {
     "clean": "rimraf coverage",
-    "test": "eslint --ignore-path .npmignore . && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --timeout 10000"
+    "test": "eslint --ignore-path .npmignore . && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --timeout 10000 test.js"
   },
   "author": {
     "name": "Raymond Lam",
@@ -36,7 +36,7 @@
     "functions": 100,
     "branches": 100,
     "check-coverage": true,
-    "temp-directory": "./coverage/.nyc_output"
+    "temp-dir": "./coverage/.nyc_output"
   },
   "babel": {
     "env": {
