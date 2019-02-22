@@ -1,8 +1,8 @@
 'use strict';
 
-//     priority-q 3.0.1
+//     priority-q
 //     https://github.com/raymond-lam/priority-q
-//     (c) 2018 Raymond Lam
+//     (c) 2016-2019 Raymond Lam
 //
 //     Author: Raymond Lam (ray@lam-ray.com)
 //
