@@ -14,7 +14,7 @@
   "homepage": "https://github.com/raymond-lam/priority-q",
   "scripts": {
     "clean": "rimraf coverage",
-    "test": "eslint --ignore-path .npmignore . && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --timeout 10000 test.js"
+    "test": "eslint --ignore-path .npmignore . && nyc --reporter=lcov --reporter=text mocha --timeout 10000 test.js"
   },
   "author": {
     "name": "Raymond Lam",
@@ -26,11 +26,7 @@
   },
   "license": "MIT",
   "nyc": {
-    "require": [
-      "babel-register"
-    ],
     "sourceMap": false,
-    "instrument": false,
     "lines": 100,
     "statements": 100,
     "functions": 100,
@@ -38,20 +34,8 @@
     "check-coverage": true,
     "temp-dir": "./coverage/.nyc_output"
   },
-  "babel": {
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
   "devDependencies": {
-    "babel-plugin-istanbul": "^5.1.0",
-    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
-    "cross-env": "^5.2.0",
     "eslint": "^5.14.0",
     "greenkeeper-lockfile": "^1.15.1",
     "mocha": "^6.0.0",
