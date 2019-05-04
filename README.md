@@ -1,6 +1,8 @@
-[![Build Status](https://travis-ci.com/raymond-lam/priority-q.svg?branch=master)](https://travis-ci.com/raymond-lam/priority-q) [![Greenkeeper badge](https://badges.greenkeeper.io/raymond-lam/priority-q.svg)](https://greenkeeper.io/)
+priority-q
+==========
 
-# priority-q
+[![Build Status](https://travis-ci.com/raymond-lam/priority-q.svg?branch=master)](https://travis-ci.com/raymond-lam/priority-q)
+[![Greenkeeper badge](https://badges.greenkeeper.io/raymond-lam/priority-q.svg)](https://greenkeeper.io/)
 
 A simple, modern JavaScript implementation of a priority queue data structure class.
 
