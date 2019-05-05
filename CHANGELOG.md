@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.4] - 2019-05-05
+
+### Fixed
+
+- Removed unnecessary dev dependencies to fix failing coverage script
+
+### Changed
+
+- Updated dev dependencies
+- minor change README.md format
+
+### Added
+
+- coveralls.io integration
+- additional badges in README.md
+
 ## [3.0.3] - 2019-02-22
 
 - update dev dependencies due to security vulnerabilties in lodash 4.17.11
