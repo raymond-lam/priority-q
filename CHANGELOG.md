@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.6] - 2019-09-02
+
+### Changed
+
+- Updated dev dependencies
+
 ## [3.0.5] - 2019-08-03
 
 ### Changed
