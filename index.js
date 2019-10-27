@@ -96,7 +96,7 @@ module.exports = class {
         nextI = this._minInHeap(
           i,
           childI1,
-          childI2 < this._heap.length ? childI2 : undefined
+          childI2 < this._heap.length ? childI2 : undefined,
         )
       ) !== i;
       i = nextI, childI1 = (i * 2) + 1, childI2 = childI1 + 1
