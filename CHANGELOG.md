@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.10] - 2020-02-09
+
+### Fixed
+
+- Fixed deployment
+
 ## [3.0.9] - 2020-02-09
 
 ### Changed
