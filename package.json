@@ -1,6 +1,6 @@
 {
   "name": "priority-q",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "A simple modern JavaScript implementation of a priority queue data structure class.",
   "main": "index.js",
   "keywords": [
