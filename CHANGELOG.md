@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.13] - 2020-07-18
+
+### Fixed
+
+- Updated dev dependencies to address security vulnerability
+
 ## [3.0.12] - 2020-04-05
 
 ### Fixed
