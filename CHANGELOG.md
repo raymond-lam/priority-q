@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.14] - 2020-12-23
+
+- Removed references to Greenkeeper.io
+
 ## [3.0.13] - 2020-07-18
 
 ### Fixed
