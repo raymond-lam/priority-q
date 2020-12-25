@@ -2,7 +2,7 @@ priority-q
 ==========
 
 [![npm](https://img.shields.io/npm/v/priority-q)](https://www.npmjs.com/package/priority-q)
-[![Build Status](https://travis-ci.com/raymond-lam/priority-q.svg?branch=master)](https://travis-ci.com/raymond-lam/priority-q)
+[![CI](https://github.com/raymond-lam/priority-q/workflows/CI/badge.svg?branch=master)](https://github.com/raymond-lam/priority-q/actions)
 [![Coverage Status](https://coveralls.io/repos/github/raymond-lam/priority-q/badge.svg?branch=master)](https://coveralls.io/github/raymond-lam/priority-q?branch=master)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
