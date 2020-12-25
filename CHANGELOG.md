@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.15] - 2020-12-25
+
+### Added
+
+- Dependabot configuration
+
+### Changed
+
+- Migrated from Travis-CI to GitHub Actions for CI
+- Updated dev dependencies
+
 ## [3.0.14] - 2020-12-23
 
 - Removed references to Greenkeeper.io
