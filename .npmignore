@@ -1,5 +1,5 @@
 *.swp
 .eslintrc.yml
-.travis.yml
+.github
 coverage
 test.js
