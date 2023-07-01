@@ -50,7 +50,7 @@ jobs:
           node-version: 15
       - run: npm ci
       - run: npm run test:coverage
-      - uses: coverallsapp/github-action@v2.1.2
+      - uses: coverallsapp/github-action@v2.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
   publish:
